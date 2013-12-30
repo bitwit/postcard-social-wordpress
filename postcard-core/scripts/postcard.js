@@ -1,0 +1,208 @@
+var PostcardModal, prettyDate, stylePostText;
+
+stylePostText = function(message) {
+  var text;
+  text = message.text.replace(/((https?|s?ftp|ssh)\:\/\/[^"\s\<\>]*[^.,;'">\:\s\<\>\)\]\!])/g, function(F) {
+    return '<a target="_blank" href="' + F + '">' + F + "</a>";
+  });
+  text = text.replace(/\B@([_a-z0-9]+)/ig, function(F) {
+    return F.charAt(0) + '<a target="_blank" href="http://www.twitter.com/' + F.substring(1) + '">' + F.substring(1) + "</a>";
+  });
+  return text = text.replace(/\B#([_a-z0-9]+)/ig, function(F) {
+    return F.charAt(0) + '<a target="_blank" href="http://www.twitter.com/#!/search?q=' + F.substring(1) + '">' + F.substring(1) + "</a>";
+  });
+};
+
+prettyDate = function(time) {
+  var date, day_diff, diff;
+  date = new Date(time.replace(/-/g, "/").replace("T", " ").replace("+", " +"));
+  diff = ((new Date()).getTime() - date.getTime()) / 1000;
+  day_diff = Math.floor(diff / 86400);
+  if (isNaN(day_diff) || day_diff < 0) {
+    return;
+  }
+  if (day_diff === 0) {
+    if (diff < 60) {
+      return Math.floor(diff) + " seconds ago";
+    }
+    if (diff < 120) {
+      return "1 minute ago";
+    }
+    if (diff < 3600) {
+      return Math.floor(diff / 60) + " minutes ago";
+    }
+    if (diff < 7200) {
+      return "1 hour ago";
+    }
+    if (diff < 86400) {
+      return Math.floor(diff / 3600) + " hours ago";
+    }
+  } else {
+    if (day_diff === 1) {
+      return "1 day ago";
+    }
+    if (day_diff < 7) {
+      return day_diff + " days ago";
+    }
+    if (day_diff === 7) {
+      return "1 week ago";
+    }
+    if (day_diff > 7) {
+      return Math.ceil(day_diff / 7) + " weeks ago";
+    }
+  }
+};
+
+/*
+  Class for handling the postard modal window
+  Expects certain gallery/modal structure to be in place in the HTML
+  i.e. exactly what the postcard-core HTML outputs when you output a gallery
+*/
+
+
+PostcardModal = (function() {
+  PostcardModal.prototype.modalWindow = null;
+
+  PostcardModal.prototype.currentPostcard = null;
+
+  PostcardModal.prototype.mediaSectionDimensions = null;
+
+  function PostcardModal() {
+    var _this = this;
+    this.modalWindow = $("#postcard-modal-window");
+    this.modalWindow.click(function(e) {
+      e.stopPropagation();
+      $(this).fadeOut();
+      _this.modalWindow.find(".media-container").text("");
+      return _this.modalWindow.find(".message-container .value").text("");
+    });
+    this.modalWindow.find(".postcard-modal").click(function(e) {
+      return e.stopPropagation();
+    });
+    this.modalWindow.find(".next").click(function(e) {
+      e.stopPropagation();
+      return _this.next();
+    });
+    this.modalWindow.find(".prev").click(function(e) {
+      e.stopPropagation();
+      return _this.prev();
+    });
+  }
+
+  PostcardModal.prototype.expand = function(id) {
+    var _this = this;
+    this.modalWindow.fadeIn();
+    return $.ajax("/pc-api/post/get?id=" + id, {
+      success: function(data, textStatus, jqXHR) {
+        return _this.display(data.payload);
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+        return console.error('bunk error', jqXHR, textStatus, errorThrown);
+      }
+    });
+  };
+
+  PostcardModal.prototype.next = function() {
+    var _this = this;
+    return $.ajax("/pc-api/post/search?before=" + this.currentPostcard.id + "&image=true&limit=1", {
+      success: function(data, textStatus, jqXHR) {
+        if (data.payload.length >= 1) {
+          return _this.display(data.payload[0]);
+        }
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+        return console.error('bunk error', jqXHR, textStatus, errorThrown);
+      }
+    });
+  };
+
+  PostcardModal.prototype.prev = function() {
+    var _this = this;
+    return $.ajax("/pc-api/post/search?since=" + this.currentPostcard.id + "&image=true&limit=1", {
+      success: function(data, textStatus, jqXHR) {
+        if (data.payload.length >= 1) {
+          return _this.display(data.payload[0]);
+        }
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+        return console.error('bunk error', jqXHR, textStatus, errorThrown);
+      }
+    });
+  };
+
+  PostcardModal.prototype.display = function(postcard) {
+    var date, infoContainer, nHeight, nImg, nWidth, pLeft, pTop, paddingCSS, paddingCss, profile, vH, vW, video,
+      _this = this;
+    this.currentPostcard = postcard;
+    this.modalWindow.find(".message-container .value").text(postcard.message);
+    infoContainer = this.modalWindow.find(".info-container");
+    profile = "<img class=\"profile-pic\" src=\"/pc-api/user/picture?id=" + postcard.user_id + "\" />";
+    infoContainer.html(profile);
+    date = "<br /><span class=\"date\">" + (prettyDate(postcard.date)) + "</span>";
+    infoContainer.append(date);
+    this.calculateMediaSectionDimensions();
+    if (postcard.video != null) {
+      vW = postcard.width;
+      vH = postcard.height;
+      if (vW > vH) {
+        nHeight = this.mediaSectionDimensions.height * (vH / vW);
+        nWidth = this.mediaSectionDimensions.width;
+        pTop = (this.mediaSectionDimensions.height - nHeight) / 2;
+        paddingCss = {
+          "padding-top": pTop + "px"
+        };
+      } else if (vH > vW) {
+        nWidth = this.mediaSectionDimensions.width * (vW / vH);
+        nHeight = this.mediaSectionDimensions.height;
+        pLeft = (this.mediaSectionDimensions.width - nWidth) / 2;
+        paddingCss = {
+          "padding-left": pLeft + "px"
+        };
+      } else {
+        nWidth = this.mediaSectionDimensions.width;
+        nHeight = this.mediaSectionDimensions.height;
+        paddingCSS = null;
+      }
+      video = $("<video id=\"video-" + postcard.id + "\" width=\"" + nWidth + "\" height=\"" + nHeight + "\" controls loop preload=\"auto\"><source src=\"" + postcard.video + "\" type=\"video/mp4\"></video>");
+      this.modalWindow.find(".media-container").html(video);
+      return $("#video-" + postcard.id).css(paddingCss).get(0).play();
+    } else {
+      nImg = new Image();
+      nImg.onload = function() {
+        var iH, iW, img;
+        img = $("<img class=\"media\" src=\"" + postcard.image + "\" />");
+        iW = this.width;;
+        iH = this.height;;
+        if (iW > iH) {
+          nHeight = _this.mediaSectionDimensions.height * (iH / iW);
+          pTop = (_this.mediaSectionDimensions.height - nHeight) / 2;
+          img.css({
+            "padding-top": pTop + "px"
+          });
+        } else {
+          nWidth = _this.mediaSectionDimensions.width * (iW / iH);
+          pLeft = (_this.mediaSectionDimensions.width - nWidth) / 2;
+          img.css({
+            "padding-left": pLeft + "px"
+          });
+        }
+        img.fadeTo(0, 0);
+        _this.modalWindow.find(".media-container").html(img);
+        return img.fadeTo(400, 1);
+      };
+      return nImg.src = postcard.image;
+    }
+  };
+
+  PostcardModal.prototype.calculateMediaSectionDimensions = function() {
+    var mediaSection;
+    mediaSection = this.modalWindow.find(".media-section");
+    return this.mediaSectionDimensions = {
+      width: mediaSection.width(),
+      height: mediaSection.height()
+    };
+  };
+
+  return PostcardModal;
+
+})();
