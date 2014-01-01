@@ -1,8 +1,8 @@
 {
-  "name": "Kylnew",
+  "name": "Postcard Social Plugin",
   "private": true,
   "version": "v1.0.0",
-  "repository": "git://github.com/bitwit/postcard.git",
+  "repository": "http://plugins.svn.wordpress.org/postcard-social/",
   "devDependencies": {
     "grunt": "~0.4.1",
     "grunt-contrib-concat": "~0.3.0",
