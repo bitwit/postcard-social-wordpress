@@ -2,7 +2,10 @@
 
 function postcard_run_startup()
 {
-    $request_endpoint = explode("/", strtok($_SERVER['REQUEST_URI'], '?'));
+    require_once("utils.php");
+    $endpoint = $_SERVER['REQUEST_URI'];
+    $cleaned_endpoint = str_replace(postcard_get_site_prefix(),"", $endpoint);
+    $request_endpoint = explode("/", $cleaned_endpoint);
     array_shift($request_endpoint); # First slash is useless
 
     if ($request_endpoint[0] == "pc-api") {

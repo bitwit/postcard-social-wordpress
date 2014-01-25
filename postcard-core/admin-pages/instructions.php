@@ -1,79 +1,81 @@
+<style>
+    a.ios-setup-button {
+        display: block;
+        width: 220px;
+        background-color: #6495ed;
+        padding: 20px;
+        border-radius: 5px;
+        color: white;
+        font-size: 24px;
+        text-decoration: none;
+        text-align: center;
+    }
+
+    a.ios-setup-button:hover {
+        opacity: 0.9;
+    }
+
+    a.ios-setup-button:active {
+        opacity: 0.8;
+    }
+
+    .postcard-instructions {
+        background-color: #FEFEFE;
+        border: 1px solid #EFEFEF;
+        border-radius: 5px;
+        padding: 20px;
+        margin: 20px;
+    }
+
+    h3 {
+        font-size: 18px;
+        margin-top: 0;
+    }
+
+    dl {
+        font-size: 18px;
+        line-height: 150%;
+    }
+
+    dt {
+        font-weight: bold;
+    }
+
+    p {
+        font-size: 16px;
+    }
+
+</style>
 <?php
-$api_endpoint = "http://" . $_SERVER['HTTP_HOST'] . "/pc-api/";
+$api_endpoint = postcard_get_api_endpoint();
 ?>
-    <style>
-        a.ios-setup-button {
-            display: block;
-            width: 220px;
-            background-color: #6495ed;
-            padding: 20px;
-            border-radius: 5px;
-            color: white;
-            font-size: 24px;
-            text-decoration: none;
-            text-align: center;
-        }
+<h2>Postcard</h2>
+<dl>
+    <dt>Server API Status</dt>
+    <dd id="postcard-server-status">Checking...</dd>
+    <dt>API Endpoint</dt>
+    <dd><?php echo $api_endpoint; ?></dd>
+</dl>
 
-        a.ios-setup-button:hover {
-            opacity: 0.9;
-        }
-
-        a.ios-setup-button:active {
-            opacity: 0.8;
-        }
-
-        .postcard-instructions{
-            background-color: #FEFEFE;
-            border: 1px solid #EFEFEF;
-            border-radius: 5px;
-            padding: 20px;
-            margin: 20px;
-        }
-
-        h3{
-            font-size: 18px;
-            margin-top: 0;
-        }
-
-        dl {
-            font-size: 18px;
-            line-height: 150%;
-        }
-
-        dt {
-            font-weight: bold;
-        }
-
-        p {
-            font-size: 16px;
-        }
-
-    </style>
-    <h2>Postcard</h2>
-    <dl>
-        <dt>Server API Status</dt>
-        <dd id="postcard-server-status">Checking...</dd>
-        <dt>API Endpoint</dt>
-        <dd><?php echo $api_endpoint; ?></dd>
-    </dl>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            jQuery.get("/pc-api/status", function (data, status) {
-                if (data.success == true) {
-                    jQuery("#postcard-server-status").html("Online").css({color: "green"});
-                } else {
-                    jQuery("#postcard-server-status").html("Error communicating with API").css({color: "red"});
-                }
-            });
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        jQuery.get("/pc-api/status", function (data, status) {
+            if (data.success == true) {
+                jQuery("#postcard-server-status").html("Online").css({color: "green"});
+            } else {
+                jQuery("#postcard-server-status").html("Error communicating with API").css({color: "red"});
+            }
         });
-    </script>
+    });
+</script>
 
 <div class="postcard-instructions">
     <h3>Instructions</h3>
+
     <p>
         Thanks for downloading and installing Postcard! Here's how you can get started:
     </p>
+
     <p>
         Postcard works in unison with the Postcard app (currently for iOS only).
         By entering your login credentials and the 'API Endpoint' listed above you can set this WordPress website and
@@ -90,7 +92,8 @@ $api_endpoint = "http://" . $_SERVER['HTTP_HOST'] . "/pc-api/";
     </a>
 
     <p>
-        Once you are posting content to this website, you can use insert short tags in the post/pages editor to retrieve your content like so:
+        Once you are posting content to this website, you can use insert short tags in the post/pages editor to retrieve
+        your content like so:
     </p>
 
     <dl>
@@ -124,5 +127,4 @@ $api_endpoint = "http://" . $_SERVER['HTTP_HOST'] . "/pc-api/";
         </dd>
     </dl>
 </div>
-
 <?php
