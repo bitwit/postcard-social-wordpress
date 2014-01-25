@@ -7,12 +7,12 @@ function postcard_run_startup()
     $request_endpoint = explode("/", $cleaned_endpoint);
     array_shift($request_endpoint); # First slash is useless
 
-    if ($request_endpoint[0] == "pc-api") {
-        require_once("PostcardApi.php");
-        $api = new PostcardApi();
+    if(isset($_GET['postcard_api']) && $_GET['postcard_api'] == TRUE){
+        $endpoint = (isset($_GET['endpoint'])) ? $_GET['endpoint'] : "";
+    }
+    elseif ($request_endpoint[0] == "pc-api") {
         array_shift($request_endpoint);
         $endpoint = implode("/", $request_endpoint);
-        $api->processRequest($endpoint);
     } else {
         require_once("postcard-functions.php");
         add_shortcode("postcard-gallery", "postcard_process_gallery_shortcode");
@@ -21,6 +21,12 @@ function postcard_run_startup()
         add_action('admin_menu', 'postcard_admin_menus');
         add_action( 'wp_enqueue_scripts', 'postcard_enqueue_styles' );
         add_action( 'wp_enqueue_scripts', 'postcard_enqueue_scripts' );
+    }
+
+    if(isset($endpoint)){
+        require_once("PostcardApi.php");
+        $api = new PostcardApi();
+        $api->processRequest($endpoint);
     }
 }
 

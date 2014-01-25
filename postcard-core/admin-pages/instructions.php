@@ -53,18 +53,19 @@ $api_endpoint = postcard_get_api_endpoint();
 <dl>
     <dt>Server API Status</dt>
     <dd id="postcard-server-status">Checking...</dd>
-    <dt>API Endpoint</dt>
+    <dt>Postcard Website URL</dt>
     <dd><?php echo $api_endpoint; ?></dd>
 </dl>
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        jQuery.get("/pc-api/status", function (data, status) {
+        jQuery.get("<?php echo $api_endpoint; ?>", function (data, status) {
+            var statusElement = jQuery("#postcard-server-status");
             if (data.success == true) {
-                jQuery("#postcard-server-status").html("Online").css({color: "green"});
-            } else {
-                jQuery("#postcard-server-status").html("Error communicating with API").css({color: "red"});
+                statusElement.html("Online").css({color: "green"});
+                return;
             }
+            statusElement.html("Error communicating with API").css({color: "red"});
         });
     });
 </script>

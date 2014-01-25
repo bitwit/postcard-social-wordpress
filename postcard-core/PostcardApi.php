@@ -28,6 +28,7 @@ class PostcardApi
     private $data = null;
     private $token_data = null;
     private $routes = array(
+        "" => "status",
         "status" => "status",
         "authenticate" => "authenticate",
         "post/add" => "post_add",
@@ -42,6 +43,10 @@ class PostcardApi
     public function processRequest($action)
     {
         $method = NULL;
+        if(substr($action, -1) == "/"){
+            $action = substr($action, 0, -1);
+        }
+
         if (array_key_exists($action, $this->routes)) {
             $method = $this->routes[$action];
         } else {
