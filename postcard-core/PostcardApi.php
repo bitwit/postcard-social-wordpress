@@ -45,7 +45,7 @@ class PostcardApi
         if (array_key_exists($action, $this->routes)) {
             $method = $this->routes[$action];
         } else {
-            postcard_error_response("Bad Method Request");
+            postcard_error_response("Bad Method Request => " . $action);
         }
         switch ($_SERVER['REQUEST_METHOD']) {
             case 'GET':

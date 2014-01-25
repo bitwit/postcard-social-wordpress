@@ -3,8 +3,7 @@
 function postcard_run_startup()
 {
     require_once("utils.php");
-    $endpoint = $_SERVER['REQUEST_URI'];
-    $cleaned_endpoint = str_replace(postcard_get_site_prefix(),"", $endpoint);
+    $cleaned_endpoint = str_replace(postcard_get_site_prefix(), "", $_SERVER['REQUEST_URI']);
     $request_endpoint = explode("/", $cleaned_endpoint);
     array_shift($request_endpoint); # First slash is useless
 
@@ -12,7 +11,7 @@ function postcard_run_startup()
         require_once("PostcardApi.php");
         $api = new PostcardApi();
         array_shift($request_endpoint);
-        $endpoint = implode("/",$request_endpoint);
+        $endpoint = implode("/", $request_endpoint);
         $api->processRequest($endpoint);
     } else {
         require_once("postcard-functions.php");
