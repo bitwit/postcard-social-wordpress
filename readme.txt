@@ -10,6 +10,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 This is designed for use with Postcard for iOS. Using shortcodes you can embed feeds and galleries of your content into posts and pages.
 
+
 == Description ==
 
 The Postcard Social Networking Plugin for WordPress is designed to be compatible with Postcard for iOS. Without the companion
