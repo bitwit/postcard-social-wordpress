@@ -60,7 +60,7 @@ class PostcardModal
   #command to open modal and get data on a postcard to be displayed
   expand: (id) ->
     @modalWindow.fadeIn()
-    $.ajax "/pc-api/post/get?id=#{id}",
+    $.ajax "/?postcard_api=true&endpoint=post/get&id=#{id}",
       success: (data, textStatus, jqXHR) =>
         @display data.payload
       error: (jqXHR, textStatus, errorThrown) =>
@@ -68,7 +68,7 @@ class PostcardModal
 
   #looks at currently displayed postcard and gets next one to be displayed
   next: ->
-    $.ajax "/pc-api/post/search?before=#{@currentPostcard.id}&image=true&limit=1",
+    $.ajax "/?postcard_api=true&endpoint=post/search&before=#{@currentPostcard.id}&image=true&limit=1",
       success: (data, textStatus, jqXHR) =>
         if data.payload.length >= 1
           @display data.payload[0]
@@ -77,7 +77,7 @@ class PostcardModal
 
   #looks at currently displayed postcard and gets previous one to be displayed
   prev: ->
-    $.ajax "/pc-api/post/search?since=#{@currentPostcard.id}&image=true&limit=1",
+    $.ajax "/?postcard_api=true&endpoint=post/search&since=#{@currentPostcard.id}&image=true&limit=1",
       success: (data, textStatus, jqXHR) =>
         if data.payload.length >= 1
           @display data.payload[0]
@@ -90,7 +90,7 @@ class PostcardModal
     @modalWindow.find(".message-container .value").text postcard.message
 
     infoContainer = @modalWindow.find(".info-container")
-    profile = "<img class=\"profile-pic\" src=\"/pc-api/user/picture?id=#{postcard.user_id}\" />"
+    profile = "<img class=\"profile-pic\" src=\"/?postcard_api=true&endpoint=user/picture&id=#{postcard.user_id}\" />"
     infoContainer.html profile
 
     date = "<br /><span class=\"date\">#{prettyDate(postcard.date)}</span>"

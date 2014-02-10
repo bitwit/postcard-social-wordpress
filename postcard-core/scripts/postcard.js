@@ -92,7 +92,7 @@ PostcardModal = (function() {
   PostcardModal.prototype.expand = function(id) {
     var _this = this;
     this.modalWindow.fadeIn();
-    return $.ajax("/pc-api/post/get?id=" + id, {
+    return $.ajax("/?postcard_api=true&endpoint=post/get&id=" + id, {
       success: function(data, textStatus, jqXHR) {
         return _this.display(data.payload);
       },
@@ -104,7 +104,7 @@ PostcardModal = (function() {
 
   PostcardModal.prototype.next = function() {
     var _this = this;
-    return $.ajax("/pc-api/post/search?before=" + this.currentPostcard.id + "&image=true&limit=1", {
+    return $.ajax("/?postcard_api=true&endpoint=post/search&before=" + this.currentPostcard.id + "&image=true&limit=1", {
       success: function(data, textStatus, jqXHR) {
         if (data.payload.length >= 1) {
           return _this.display(data.payload[0]);
@@ -118,7 +118,7 @@ PostcardModal = (function() {
 
   PostcardModal.prototype.prev = function() {
     var _this = this;
-    return $.ajax("/pc-api/post/search?since=" + this.currentPostcard.id + "&image=true&limit=1", {
+    return $.ajax("/?postcard_api=true&endpoint=post/search&since=" + this.currentPostcard.id + "&image=true&limit=1", {
       success: function(data, textStatus, jqXHR) {
         if (data.payload.length >= 1) {
           return _this.display(data.payload[0]);
@@ -136,7 +136,7 @@ PostcardModal = (function() {
     this.currentPostcard = postcard;
     this.modalWindow.find(".message-container .value").text(postcard.message);
     infoContainer = this.modalWindow.find(".info-container");
-    profile = "<img class=\"profile-pic\" src=\"/pc-api/user/picture?id=" + postcard.user_id + "\" />";
+    profile = "<img class=\"profile-pic\" src=\"/?postcard_api=true&endpoint=user/picture&id=" + postcard.user_id + "\" />";
     infoContainer.html(profile);
     date = "<br /><span class=\"date\">" + (prettyDate(postcard.date)) + "</span>";
     infoContainer.append(date);

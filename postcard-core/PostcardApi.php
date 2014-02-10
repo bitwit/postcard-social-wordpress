@@ -306,9 +306,12 @@ class PostcardApi
     {
         $this->requireFields(array("id"));
         require_once("postcard-functions.php");
-        $pic = postcard_profile_picture($this->data["id"]);
-        header("Location: $pic");
-        die();
+        $user = postcard_get_user_by_id($this->data["id"]);
+        if($user){
+            postcard_success_response($user, "Postcard user found");
+        } else {
+            postcard_error_response("User not found");
+        }
     }
 
     // profile picture

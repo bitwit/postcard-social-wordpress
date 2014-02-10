@@ -33,7 +33,7 @@ ul.postcard-gallery {
     left: 10%;
     width: 100%;
     height: 100%;
-    background-image: url(/wp-content/plugins/postcard-plugin/postcard-core/img/video-play-button.png);
+    background-image: url(../img/video-play-button.png);
     background-repeat: no-repeat; }
 
 ul.postcard-feed {
@@ -155,11 +155,11 @@ ul.postcard-feed {
       opacity: 1; }
   .postcard-modal-container button.next {
     right: 0.625em;
-    background: url(/wp-content/plugins/postcard-plugin/postcard-core/img/gallery-next.png);
+    background: url(../img/gallery-next.png);
     background-size: 100% 100%; }
   .postcard-modal-container button.prev {
     left: 0.625em;
-    background: url(/wp-content/plugins/postcard-plugin/postcard-core/img/gallery-prev.png);
+    background: url(../img/gallery-prev.png);
     background-size: 100% 100%; }
 
 .postcard-modal {

@@ -320,12 +320,16 @@ function postcard_get_user_by_id($id){
     $user_table = $wpdb->prefix . "users";
     $query = "SELECT * FROM $user_table WHERE id='$id'";
     $result = $wpdb->get_row($query);
-    $data = array(
-        "id" => $id,
-        "username" => $result->user_login,
-        "display_name" => $result->display_name,
-        "picture" => postcard_profile_picture($id)
-    );
+    if($result){
+        $data = array(
+            "id" => $id,
+            "username" => $result->user_login,
+            "display_name" => $result->display_name,
+            "picture" => postcard_profile_picture($id)
+        );
+    } else {
+        $data = NULL;
+    }
     return $data;
 }
 
@@ -353,8 +357,9 @@ function postcard_delete_by_id($postcard_id){
     $tags_result = $wpdb->delete( $tags_postcards_table, array( 'postcard_id' => $postcard_id ) );
 
     if(!$postcard_result && !$tags_result)
-        return false;
-    return true;
+        postcard_success_response(null, "Success deleting postcard");
+
+    postcard_error_response("Error deleting postcard");
 }
 
 function postcard_relative_date($time){

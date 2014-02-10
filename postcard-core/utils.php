@@ -10,8 +10,7 @@ function postcard_get_site_prefix(){
 }
 
 function postcard_get_api_endpoint(){
-    $permalink_structure = get_option("permalink_structure", "");
     $url = get_option('home') . postcard_get_site_prefix();
-    $url .= ($permalink_structure != "") ? "/pc-api/" : "?postcard_api=true";
+    $url .= "?postcard_api=true";
     return $url;
 }

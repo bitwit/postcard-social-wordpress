@@ -3,7 +3,7 @@
 function postcard_run_startup()
 {
     require_once("utils.php");
-    $cleaned_endpoint = str_replace(postcard_get_site_prefix(), "", $_SERVER['REQUEST_URI']);
+    $cleaned_endpoint = str_replace(postcard_get_site_prefix(), "", strtok($_SERVER['REQUEST_URI'], '?'));
     $request_endpoint = explode("/", $cleaned_endpoint);
     array_shift($request_endpoint); # First slash is useless
 
