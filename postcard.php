@@ -3,7 +3,7 @@
 Plugin Name: Postcard Social Plugin
 Plugin URI: http://www.postcardsocial.net
 Description: Allows you to store and index social content you are sharing through the Postcard iOS app
-Version: 1.0
+Version: 1.1
 Author: Kyle Newsome
 Author URI: http://www.bitwit.ca
 License: GPL v2
