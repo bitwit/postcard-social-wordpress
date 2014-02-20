@@ -352,14 +352,9 @@ function postcard_delete_by_id($postcard_id){
     global $wpdb;
     $postcards_table = $wpdb->prefix . "pc_postcards";
     $tags_postcards_table = $wpdb->prefix . "pc_tags_posts";
-
     $postcard_result = $wpdb->delete( $postcards_table, array( 'id' => $postcard_id ) );
     $tags_result = $wpdb->delete( $tags_postcards_table, array( 'postcard_id' => $postcard_id ) );
-
-    if(!$postcard_result && !$tags_result)
-        postcard_success_response(null, "Success deleting postcard");
-
-    postcard_error_response("Error deleting postcard");
+    return TRUE;
 }
 
 function postcard_relative_date($time){
