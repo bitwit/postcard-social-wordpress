@@ -49,6 +49,10 @@ This shortcode will create an image gallery and only display image and video con
 
     [postcard-gallery count=20]
 
+**#profile**
+If you tag a photo upload with #profile or privataely tag it with 'profile' this will become your effective new 'profile picture'
+that is used in the gallery overlay
+
 == Changelog ==
 
 = 1.2.1 =
