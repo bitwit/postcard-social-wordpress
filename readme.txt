@@ -4,7 +4,7 @@ Donate link: http://www.postcardsocial.net
 Tags: social, networking, postcard, feed
 Requires at least: 3.0
 Tested up to: 3.8.1
-Stable tag: 1.2.1
+Stable tag: 1.2.2
 License: GPL v2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -55,7 +55,7 @@ that is used in the gallery overlay
 
 == Changelog ==
 
-= 1.2.1 =
+= 1.2.2 =
 * jQuery conflict issue resolved
 
 = 1.2 =
@@ -66,7 +66,7 @@ that is used in the gallery overlay
 
 == Upgrade Notice ==
 
-= 1.2.1 =
+= 1.2.2 =
 You should update to this version for full interactive gallery capabilities.
 
 = 1.2 =

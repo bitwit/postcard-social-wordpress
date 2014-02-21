@@ -36,12 +36,12 @@ class PostcardModal
   mediaSectionDimensions: null
 
   constructor: ->
-    @modalWindow = $("#postcard-modal-window")
+    @modalWindow = jQuery("#postcard-modal-window")
 
     #on modal window click, dismiss it and remove content
     @modalWindow.click (e) =>
       e.stopPropagation()
-      `$(this).fadeOut()`
+      `jQuery(this).fadeOut()`
       @modalWindow.find(".media-container").text ""
       @modalWindow.find(".message-container .value").text ""
 
@@ -60,7 +60,7 @@ class PostcardModal
   #command to open modal and get data on a postcard to be displayed
   expand: (id) ->
     @modalWindow.fadeIn()
-    $.ajax "/?postcard_api=true&endpoint=post/get&id=#{id}",
+    jQuery.ajax "/?postcard_api=true&endpoint=post/get&id=#{id}",
       success: (data, textStatus, jqXHR) =>
         @display data.payload
       error: (jqXHR, textStatus, errorThrown) =>
@@ -68,7 +68,7 @@ class PostcardModal
 
   #looks at currently displayed postcard and gets next one to be displayed
   next: ->
-    $.ajax "/?postcard_api=true&endpoint=post/search&before=#{@currentPostcard.id}&image=true&limit=1",
+    jQuery.ajax "/?postcard_api=true&endpoint=post/search&before=#{@currentPostcard.id}&image=true&limit=1",
       success: (data, textStatus, jqXHR) =>
         if data.payload.length >= 1
           @display data.payload[0]
@@ -77,7 +77,7 @@ class PostcardModal
 
   #looks at currently displayed postcard and gets previous one to be displayed
   prev: ->
-    $.ajax "/?postcard_api=true&endpoint=post/search&since=#{@currentPostcard.id}&image=true&limit=1",
+    jQuery.ajax "/?postcard_api=true&endpoint=post/search&since=#{@currentPostcard.id}&image=true&limit=1",
       success: (data, textStatus, jqXHR) =>
         if data.payload.length >= 1
           @display data.payload[0]
@@ -116,13 +116,13 @@ class PostcardModal
         nHeight = @mediaSectionDimensions.height
         paddingCSS = null
 
-      video = $("<video id=\"video-#{postcard.id}\" width=\"#{nWidth}\" height=\"#{nHeight}\" controls loop preload=\"auto\"><source src=\"#{postcard.video}\" type=\"video/mp4\"></video>")
+      video = jQuery("<video id=\"video-#{postcard.id}\" width=\"#{nWidth}\" height=\"#{nHeight}\" controls loop preload=\"auto\"><source src=\"#{postcard.video}\" type=\"video/mp4\"></video>")
       @modalWindow.find(".media-container").html video
-      $("#video-#{postcard.id}").css(paddingCss).get(0).play()
+      jQuery("#video-#{postcard.id}").css(paddingCss).get(0).play()
     else
       nImg = new Image()
       nImg.onload = =>
-        img = $("<img class=\"media\" src=\"#{postcard.image}\" />")
+        img = jQuery("<img class=\"media\" src=\"#{postcard.image}\" />")
         iW = `this.width;`
         iH = `this.height;`
         if (iW > iH)
@@ -146,8 +146,8 @@ class PostcardModal
       width: mediaSection.width()
       height: mediaSection.height()
 
-jQuery(document).ready ($) ->
+jQuery(document).ready () ->
   postcard = new PostcardModal();
-  $('.postcard-gallery .postcard-container').click ->
-      pc_id = $(@).data "postcard-id"
+  jQuery('.postcard-gallery .postcard-container').click ->
+      pc_id = jQuery(@).data "postcard-id"
       postcard.expand pc_id
