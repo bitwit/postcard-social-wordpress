@@ -206,3 +206,13 @@ PostcardModal = (function() {
   return PostcardModal;
 
 })();
+
+$(document).ready(function() {
+  var postcard;
+  postcard = new PostcardModal();
+  return $('.postcard-gallery .postcard-container').click(function() {
+    var pc_id;
+    pc_id = $(this).data("postcard-id");
+    return postcard.expand(pc_id);
+  });
+});

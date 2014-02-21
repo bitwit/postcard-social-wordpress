@@ -145,3 +145,9 @@ class PostcardModal
     @mediaSectionDimensions =
       width: mediaSection.width()
       height: mediaSection.height()
+
+$(document).ready ->
+  postcard = new PostcardModal();
+  $('.postcard-gallery .postcard-container').click ->
+      pc_id = $(@).data "postcard-id"
+      postcard.expand pc_id
