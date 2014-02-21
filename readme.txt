@@ -3,8 +3,8 @@ Contributors: bitwit
 Donate link: http://www.postcardsocial.net
 Tags: social, networking, postcard, feed
 Requires at least: 3.0
-Tested up to: 3.7
-Stable tag: 1.2
+Tested up to: 3.8.1
+Stable tag: 1.2.1
 License: GPL v2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -51,6 +51,9 @@ This shortcode will create an image gallery and only display image and video con
 
 == Changelog ==
 
+= 1.2.1 =
+* jQuery conflict issue resolved
+
 = 1.2 =
 * Fixes a problem with the gallery javascript not being included
 
@@ -58,6 +61,9 @@ This shortcode will create an image gallery and only display image and video con
 * This is a beta version and should not be used any longer
 
 == Upgrade Notice ==
+
+= 1.2.1 =
+You should update to this version for full interactive gallery capabilities.
 
 = 1.2 =
 You should update to this version for full interactive gallery capabilities.

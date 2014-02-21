@@ -207,7 +207,7 @@ PostcardModal = (function() {
 
 })();
 
-$(document).ready(function() {
+jQuery(document).ready(function($) {
   var postcard;
   postcard = new PostcardModal();
   return $('.postcard-gallery .postcard-container').click(function() {
