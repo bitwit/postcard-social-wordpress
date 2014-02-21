@@ -126,6 +126,12 @@ $api_endpoint = postcard_get_api_endpoint();
             <br/>
             [postcard-gallery count=20]
         </dd>
+        <dt>#profile</dt>
+        <dd>
+            If you tag a photo upload with #profile or privataely tag it with 'profile' this will become your effective
+            new 'profile picture'
+            that is used in the gallery overlay
+        </dd>
     </dl>
 </div>
 <?php
