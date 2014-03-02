@@ -109,21 +109,21 @@ $api_endpoint = postcard_get_api_endpoint();
     </style>
     <script>
         jQuery(document).ready(function () {
-            $("button.postcard-edit").on("click", function () {
-                $(".postcard-edit-area").show();
-                $(".postcard-listings").hide();
-                var postcard_id = $(this).data("id");
-                $.get("<?php echo $api_endpoint; ?>&endpoint=post/get&id=" + postcard_id, function (data, status) {
+            jQuery("button.postcard-edit").on("click", function () {
+                jQuery(".postcard-edit-area").show();
+                jQuery(".postcard-listings").hide();
+                var postcard_id = jQuery(this).data("id");
+                jQuery.get("<?php echo $api_endpoint; ?>&endpoint=post/get&id=" + postcard_id, function (data, status) {
                     if (data.success == true) {
                         var postcard = data.payload;
-                        console.log("postcard", postcard);
-                        $("#postcard-edit-id").val(postcard.id);
-                        $("#postcard-edit-date").val(postcard.date);
-                        $("#postcard-edit-message").val(postcard.message);
-                        $("#postcard-edit-url").val(postcard.url);
-                        $("#postcard-edit-image").val(postcard.image);
-                        $("#postcard-edit-video").val(postcard.video);
-                        // $("#postcard-edit-tags").val(postcard.tags);
+                        //console.log("postcard", postcard);
+                        jQuery("#postcard-edit-id").val(postcard.id);
+                        jQuery("#postcard-edit-date").val(postcard.date);
+                        jQuery("#postcard-edit-message").val(postcard.message);
+                        jQuery("#postcard-edit-url").val(postcard.url);
+                        jQuery("#postcard-edit-image").val(postcard.image);
+                        jQuery("#postcard-edit-video").val(postcard.video);
+                        // jQuery("#postcard-edit-tags").val(postcard.tags);
                     }
                 });
             });
