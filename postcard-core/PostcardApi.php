@@ -212,20 +212,17 @@ class PostcardApi
                 $image->save();
             }
 
-            $image_url = parse_url($image_result["url"]);
-
             $postcard = array(
                 "user_id" => $this->token_data->user_id,
                 "date" => date("Y-m-d H:i:s", strtotime($this->data['date'])),
                 "message" => $this->data['message'],
-                "image" => get_bloginfo('url') . $image_url["path"],
+                "image" => $image_result["url"],
                 "width" => $image_size["width"],
                 "height" => $image_size["height"],
             );
 
             if ($video_result != NULL) {
-                $video_url = parse_url($video_result["url"]);
-                $postcard["video"] = get_bloginfo('url') . $video_url["path"];
+                $postcard["video"] = $video_result["url"];
             }
 
             $posts_table_name = $wpdb->prefix . "pc_postcards";
