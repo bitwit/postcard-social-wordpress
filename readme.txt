@@ -4,7 +4,7 @@ Donate link: http://www.postcardsocial.net
 Tags: social, networking, postcard, feed
 Requires at least: 3.0
 Tested up to: 3.8.1
-Stable tag: 1.2.3
+Stable tag: 1.2.4
 License: GPL v2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -54,6 +54,9 @@ If you tag a photo upload with #profile or privataely tag it with 'profile' this
 that is used in the gallery overlay
 
 == Changelog ==
+
+= 1.2.4 =
+* Basic text field editing for postcards: date, message, link url, image url, video url
 
 = 1.2.3 =
 * Content upload issue with domains that include a path (e.g. http://domain.com/blog/)
