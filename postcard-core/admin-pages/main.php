@@ -32,7 +32,6 @@ if (isset($_POST['postcard-edit-id'])){
        $postcard["video"] = $_POST['postcard-edit-video'];
     }
 
-    print_r($postcard);
     $posts_table_name = $wpdb->prefix . "pc_postcards";
     $result = $wpdb->update($posts_table_name, $postcard, array("id" => $_POST['postcard-edit-id']));
     ?>
