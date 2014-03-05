@@ -221,7 +221,8 @@ class PostcardApi
                     'post_mime_type' => $wp_filetype,
                     'post_title' => preg_replace('/\.[^.]+$/', '', basename($filename)),
                     'post_content' => '',
-                    'post_status' => 'inherit'
+                    'post_status' => 'publish',
+                    'post_author' => $this->token_data->user_id
                 );
                 wp_insert_attachment( $attachment, $filename);
             }
@@ -245,7 +246,8 @@ class PostcardApi
                     'post_mime_type' => $wp_filetype,
                     'post_title' => preg_replace('/\.[^.]+$/', '', basename($filename)),
                     'post_content' => '',
-                    'post_status' => 'inherit'
+                    'post_status' => 'publish',
+                    'post_author' => $this->token_data->user_id
                 );
                 wp_insert_attachment( $attachment, $filename);
             }

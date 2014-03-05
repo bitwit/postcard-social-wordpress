@@ -9,6 +9,9 @@ function postcard_run_startup()
 
     if(isset($_GET['postcard_api']) && $_GET['postcard_api'] == TRUE){
         $endpoint = (isset($_GET['endpoint'])) ? $_GET['endpoint'] : "";
+        if(get_option("postcard_auto_post")){
+            add_filter( 'postcard_new_content', 'postcard_create_post_for_content');
+        }
     }
     elseif ($request_endpoint[0] == "pc-api") {
         array_shift($request_endpoint);
