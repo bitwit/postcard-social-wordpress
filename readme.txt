@@ -4,7 +4,7 @@ Donate link: http://www.postcardsocial.net
 Tags: social, networking, postcard, feed
 Requires at least: 3.0
 Tested up to: 3.8.1
-Stable tag: 1.2.5
+Stable tag: 1.3
 License: GPL v2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -54,6 +54,12 @@ If you tag a photo upload with #profile or privataely tag it with 'profile' this
 that is used in the gallery overlay
 
 == Changelog ==
+
+= 1.3 =
+* Postcard API launches after 'after_setup_theme' instead of 'plugins_loaded' to allow themes to listen for actions/hooks and modify
+* Adds new filter 'postcard_new_content' which passes an array of the social content's parameters
+* New option page allows you to enable automatic post-creation on the submission of new content
+* Uploading images and video now includes them in the media library
 
 = 1.2.4 =
 * Basic text field editing for postcards: date, message, link url, image url, video url

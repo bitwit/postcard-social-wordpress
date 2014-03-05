@@ -167,7 +167,8 @@ function postcard_process_shortcode($atts){
     ), $atts ) );
 
     $options = array(
-        "limit" => $count
+        "limit" => $count,
+        "id" => $id
     );
 
     if ($tags != NULL){

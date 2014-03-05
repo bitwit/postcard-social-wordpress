@@ -13,6 +13,9 @@ function postcard_run_startup()
     elseif ($request_endpoint[0] == "pc-api") {
         array_shift($request_endpoint);
         $endpoint = implode("/", $request_endpoint);
+        if(get_option("postcard_auto_post")){
+            add_filter( 'postcard_new_content', 'postcard_create_post_for_content');
+        }
     } else {
         require_once("postcard-functions.php");
         add_shortcode("postcard-gallery", "postcard_process_gallery_shortcode");
@@ -45,7 +48,9 @@ function postcard_enqueue_scripts()
 function postcard_admin_menus()
 {
     add_menu_page("Instructions", "Postcard", "edit_themes", "postcard", "display_postcard_instructions");
-    add_submenu_page("postcard", "My postcards", "My postcards", "edit_themes", "postcard_settings", "display_postcard_settings");
+    add_submenu_page("postcard", "Instructions", "Instructions", "edit_themes", "postcard_instructions", "display_postcard_instructions");
+    add_submenu_page("postcard", "My postcards", "My postcards", "edit_themes", "postcard_listing", "display_postcard_list");
+    add_submenu_page("postcard", "Settings", "Settings", "edit_themes", "postcard_settings", "display_postcard_settings");
 }
 
 function display_postcard_instructions()
@@ -54,10 +59,16 @@ function display_postcard_instructions()
     include("admin-pages/instructions.php");
 }
 
-function display_postcard_settings()
+function display_postcard_list()
 {
     require_once("postcard-functions.php");
     include("admin-pages/main.php");
+}
+
+function display_postcard_settings()
+{
+    require_once("postcard-functions.php");
+    include("admin-pages/settings.php");
 }
 
 add_action('wp_head','postcard_meta');
@@ -72,4 +83,16 @@ function postcard_meta(){
 
 if ( isset($_GET['page_id']) && $_GET['page_id'] == (int)get_option(POSTCARD_ARCHIVE_PAGE) ) {
     remove_filter('template_redirect', 'redirect_canonical');
+}
+
+function postcard_create_post_for_content($postcard)
+{
+    $post = array(
+        "post_title" => "Status Update - " . date("Y-m-d", time()),
+        "post_content" => "[postcard-feed id='" . $postcard["id"] . "']",
+        "post_status" => "publish",
+        "post_author" => $postcard["user_id"]
+    );
+    wp_insert_post($post);
+    return $postcard;
 }

@@ -75,7 +75,7 @@ class PostcardApi
         $token_hash = hash("md5", $this->data['token']);
 
         $row = $wpdb->get_row("SELECT * from $tokens_table_name WHERE token='$token_hash'");
-        if ($row && (mktime() < strtotime($row->expires))) {
+        if ($row && (time() < strtotime($row->expires))) {
             $this->token_data = $row;
             return true;
         } else {
@@ -177,6 +177,8 @@ class PostcardApi
 
         $postcard['permalink'] = postcard_get_permalink($postcard["id"]);
 
+        $postcard = apply_filters( 'postcard_new_content', $postcard);
+
         postcard_success_response($postcard, "Successfully added postcard");
     }
 
@@ -195,7 +197,7 @@ class PostcardApi
         $video_result = NULL;
         if (isset($_FILES['video'])) {
             $video_result = wp_handle_upload($_FILES['video'], array("test_form" => false));
-            $did_video_upload_succeed = ($video_result['file']) ? true : false;
+            $did_video_upload_succeed = (isset($video_result['file'])) ? true : false;
             if (!$did_video_upload_succeed) {
                 postcard_error_response($video_result['error']);
             }
@@ -210,6 +212,18 @@ class PostcardApi
                 $image->set_quality(100);
                 $image->resize(160, 160, true);
                 $image->save();
+
+                $wp_filetype = $image_result['type'];
+                $filename = $image_result['file'];
+                $wp_upload_dir = wp_upload_dir();
+                $attachment = array(
+                    'guid' => $wp_upload_dir['url'] . '/' . basename( $filename ),
+                    'post_mime_type' => $wp_filetype,
+                    'post_title' => preg_replace('/\.[^.]+$/', '', basename($filename)),
+                    'post_content' => '',
+                    'post_status' => 'inherit'
+                );
+                wp_insert_attachment( $attachment, $filename);
             }
 
             $postcard = array(
@@ -223,6 +237,17 @@ class PostcardApi
 
             if ($video_result != NULL) {
                 $postcard["video"] = $video_result["url"];
+                $wp_filetype = $video_result['type'];
+                $filename = $video_result['file'];
+                $wp_upload_dir = wp_upload_dir();
+                $attachment = array(
+                    'guid' => $wp_upload_dir['url'] . '/' . basename( $filename ),
+                    'post_mime_type' => $wp_filetype,
+                    'post_title' => preg_replace('/\.[^.]+$/', '', basename($filename)),
+                    'post_content' => '',
+                    'post_status' => 'inherit'
+                );
+                wp_insert_attachment( $attachment, $filename);
             }
 
             $posts_table_name = $wpdb->prefix . "pc_postcards";
@@ -238,6 +263,8 @@ class PostcardApi
             postcard_add_tags($tags, $postcard);
 
             $postcard['permalink'] = postcard_get_permalink($postcard["id"]);
+
+            $postcard = apply_filters( 'postcard_new_content', $postcard);
 
             postcard_success_response($postcard, "Successfully added postcard");
         } else {
