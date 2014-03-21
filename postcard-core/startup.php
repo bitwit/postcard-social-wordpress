@@ -39,10 +39,10 @@ function postcard_run_startup()
 
 function postcard_enqueue_styles()
 {
-    wp_register_style('postcard-style', plugins_url('/styles/postcard.css', __FILE__), array(), '20120208', 'all');
+    wp_register_style('postcard-style', plugins_url('/styles/postcard.css', __FILE__), array());
     wp_enqueue_style('postcard-style');
 
-    wp_register_style('postcard-video-style', plugins_url('/vendor/video-js/video-js.min.css', __FILE__), array(), '20120208', 'all');
+    wp_register_style('postcard-video-style', plugins_url('/vendor/video-js/video-js.min.css', __FILE__), array());
     wp_enqueue_style('postcard-video-style');
 }
 

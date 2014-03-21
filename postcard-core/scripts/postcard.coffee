@@ -119,10 +119,15 @@ class PostcardModal
         nHeight = @mediaSectionDimensions.height
         paddingCSS = null
 
-      video = jQuery("<video id=\"video-#{postcard.postcard_id}\" width=\"#{nWidth}\" height=\"#{nHeight}\" controls loop><source src=\"#{postcard.video}\" type=\"video/mp4\"></video>")
+
+      video_id = "postcard-video-#{postcard.postcard_id}-" + (Math.floor(Math.random()*11))
+      video = jQuery("<video id=\"#{video_id}\" class=\"video-js vjs-default-skin\" width=\"#{nWidth}\" height=\"#{nHeight}\" controls loop><source src=\"#{postcard.video}\" type=\"video/mp4\"></video>")
       @modalWindow.find(".media-container").html video
       video.attr 'autoplay','autoplay'
-      video.css paddingCss
+      #video.css paddingCss
+      videojs(video_id, {width:@mediaSectionDimensions.width , height: @mediaSectionDimensions.height}, ->
+        console.log "video loaded"
+      )
 
     else
       nImg = new Image()

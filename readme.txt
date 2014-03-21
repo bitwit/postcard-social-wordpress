@@ -10,7 +10,6 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 This is designed for use with Postcard for iOS. Using shortcodes you can embed feeds and galleries of your content into posts and pages.
 
-
 == Description ==
 
 The Postcard Social Networking Plugin for WordPress is designed to be compatible with Postcard for iOS. Without the companion
@@ -61,6 +60,7 @@ that is used in the gallery overlay
 * Auto post - Tags and hashtags can be translated to WordPress categories and tags various ways
 * Auto post - Feature image can be set automatically
 * Postcard backend menus now appear based on 'manage_options' capability rather than 'edit_themes'
+* Better video player with flash fallback for better compatibility
 * fixes issue with galleries filtered by tags not showing in the modal overlay
 * fixes issue with galleries filtered by tags not paging properly when Next/Previous buttons are clicked
 * fixes issue with content not being searchable by tags

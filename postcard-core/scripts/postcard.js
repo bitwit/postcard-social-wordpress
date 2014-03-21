@@ -137,7 +137,7 @@ PostcardModal = (function() {
   };
 
   PostcardModal.prototype.display = function(postcard) {
-    var date, infoContainer, nHeight, nImg, nWidth, pLeft, pTop, paddingCSS, paddingCss, profile, vH, vW, video,
+    var date, infoContainer, nHeight, nImg, nWidth, pLeft, pTop, paddingCSS, paddingCss, profile, vH, vW, video, video_id,
       _this = this;
     this.currentPostcard = postcard;
     this.modalWindow.find(".message-container .value").html(postcard.message);
@@ -169,10 +169,16 @@ PostcardModal = (function() {
         nHeight = this.mediaSectionDimensions.height;
         paddingCSS = null;
       }
-      video = jQuery("<video id=\"video-" + postcard.postcard_id + "\" width=\"" + nWidth + "\" height=\"" + nHeight + "\" controls loop><source src=\"" + postcard.video + "\" type=\"video/mp4\"></video>");
+      video_id = ("postcard-video-" + postcard.postcard_id + "-") + (Math.floor(Math.random() * 11));
+      video = jQuery("<video id=\"" + video_id + "\" class=\"video-js vjs-default-skin\" width=\"" + nWidth + "\" height=\"" + nHeight + "\" controls loop><source src=\"" + postcard.video + "\" type=\"video/mp4\"></video>");
       this.modalWindow.find(".media-container").html(video);
       video.attr('autoplay', 'autoplay');
-      return video.css(paddingCss);
+      return videojs(video_id, {
+        width: this.mediaSectionDimensions.width,
+        height: this.mediaSectionDimensions.height
+      }, function() {
+        return console.log("video loaded");
+      });
     } else {
       nImg = new Image();
       nImg.onload = function() {
