@@ -67,6 +67,8 @@ PostcardModal = (function() {
 
   PostcardModal.prototype.mediaSectionDimensions = null;
 
+  PostcardModal.prototype.params = null;
+
   function PostcardModal() {
     var _this = this;
     this.modalWindow = jQuery("#postcard-modal-window");
@@ -103,8 +105,10 @@ PostcardModal = (function() {
   };
 
   PostcardModal.prototype.next = function() {
-    var _this = this;
-    return jQuery.ajax("/?postcard_api=true&endpoint=post/search&before=" + this.currentPostcard.id + "&image=true&limit=1", {
+    var url,
+      _this = this;
+    url = ("/?postcard_api=true&endpoint=post/search&before=" + this.currentPostcard.postcard_id + "&image=true&limit=1") + (this.params != null ? "&" + this.params : "");
+    return jQuery.ajax(url, {
       success: function(data, textStatus, jqXHR) {
         if (data.payload.length >= 1) {
           return _this.display(data.payload[0]);
@@ -117,8 +121,10 @@ PostcardModal = (function() {
   };
 
   PostcardModal.prototype.prev = function() {
-    var _this = this;
-    return jQuery.ajax("/?postcard_api=true&endpoint=post/search&since=" + this.currentPostcard.id + "&image=true&limit=1", {
+    var url,
+      _this = this;
+    url = ("/?postcard_api=true&endpoint=post/search&since=" + this.currentPostcard.postcard_id + "&image=true&limit=1") + (this.params != null ? "&" + this.params : "");
+    return jQuery.ajax(url, {
       success: function(data, textStatus, jqXHR) {
         if (data.payload.length >= 1) {
           return _this.display(data.payload[0]);
@@ -134,7 +140,7 @@ PostcardModal = (function() {
     var date, infoContainer, nHeight, nImg, nWidth, pLeft, pTop, paddingCSS, paddingCss, profile, vH, vW, video,
       _this = this;
     this.currentPostcard = postcard;
-    this.modalWindow.find(".message-container .value").text(postcard.message);
+    this.modalWindow.find(".message-container .value").html(postcard.message);
     infoContainer = this.modalWindow.find(".info-container");
     profile = "<img class=\"profile-pic\" src=\"/?postcard_api=true&endpoint=user/picture&id=" + postcard.user_id + "\" />";
     infoContainer.html(profile);
@@ -163,9 +169,10 @@ PostcardModal = (function() {
         nHeight = this.mediaSectionDimensions.height;
         paddingCSS = null;
       }
-      video = jQuery("<video id=\"video-" + postcard.id + "\" width=\"" + nWidth + "\" height=\"" + nHeight + "\" controls loop preload=\"auto\"><source src=\"" + postcard.video + "\" type=\"video/mp4\"></video>");
+      video = jQuery("<video id=\"video-" + postcard.postcard_id + "\" width=\"" + nWidth + "\" height=\"" + nHeight + "\" controls loop><source src=\"" + postcard.video + "\" type=\"video/mp4\"></video>");
       this.modalWindow.find(".media-container").html(video);
-      return jQuery("#video-" + postcard.id).css(paddingCss).get(0).play();
+      video.attr('autoplay', 'autoplay');
+      return video.css(paddingCss);
     } else {
       nImg = new Image();
       nImg.onload = function() {
@@ -208,8 +215,10 @@ PostcardModal = (function() {
 })();
 
 jQuery(document).ready(function() {
-  var postcard;
+  var params, postcard;
   postcard = new PostcardModal();
+  params = jQuery('.postcard-gallery').data("params");
+  postcard.params = params;
   return jQuery('.postcard-gallery .postcard-container').click(function() {
     var pc_id;
     pc_id = jQuery(this).data("postcard-id");

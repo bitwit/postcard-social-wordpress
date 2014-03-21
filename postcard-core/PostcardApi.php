@@ -43,7 +43,7 @@ class PostcardApi
     public function processRequest($action)
     {
         $method = NULL;
-        if(substr($action, -1) == "/"){
+        if (substr($action, -1) == "/") {
             $action = substr($action, 0, -1);
         }
 
@@ -75,7 +75,7 @@ class PostcardApi
         $token_hash = hash("md5", $this->data['token']);
 
         $row = $wpdb->get_row("SELECT * from $tokens_table_name WHERE token='$token_hash'");
-        if ($row && (time() < strtotime($row->expires))) {
+        if ($row && (@time() < strtotime($row->expires))) {
             $this->token_data = $row;
             return true;
         } else {
@@ -130,7 +130,7 @@ class PostcardApi
             postcard_error_response(strip_tags($user->get_error_message()));
         else {
             global $wpdb;
-            $auth_token = hash("sha256", $this->data['username'] . date("y-m-d H:i:s", mktime()));
+            $auth_token = hash("sha256", $this->data['username'] . date("y-m-d H:i:s", @time()));
             $data = array(
                 "token" => hash("md5", $auth_token),
                 "user_id" => $user->id,
@@ -159,6 +159,8 @@ class PostcardApi
             "date" => date("Y-m-d H:i:s", strtotime($this->data['date'])),
             "message" => $this->data['message']
         );
+        $extras = array();
+
         if (isset($this->data['url'])) {
             $postcard['url'] = $this->data['url'];
         }
@@ -169,17 +171,22 @@ class PostcardApi
 
         require_once("tasks.php");
         $tags = postcard_parse_message_for_tags($postcard);
+        $extras['hashtags'] = $tags;
         if (isset($this->data["tags"])) {
             $pvt_tags = explode(",", $this->data["tags"]);
+            $extras['private_tags'] = $pvt_tags;
             $tags = array_unique(array_merge($tags, $pvt_tags));
+        } else {
+            $extras['private_tags'] = array();
         }
         postcard_add_tags($tags, $postcard);
 
         $postcard['permalink'] = postcard_get_permalink($postcard["id"]);
 
-        $postcard = apply_filters( 'postcard_new_content', $postcard);
+        $postcard_data = array_merge($postcard, $extras);
+        $postcard_data = apply_filters('postcard_new_content', $postcard_data);
 
-        postcard_success_response($postcard, "Successfully added postcard");
+        postcard_success_response($postcard_data, "Successfully added postcard");
     }
 
     /**
@@ -207,6 +214,7 @@ class PostcardApi
             global $wpdb;
             $image = wp_get_image_editor($image_result['file']);
             $image_size = NULL;
+            $image_attachment_id = NULL;
             if (!is_wp_error($image)) {
                 $image_size = $image->get_size();
                 $image->set_quality(100);
@@ -217,14 +225,17 @@ class PostcardApi
                 $filename = $image_result['file'];
                 $wp_upload_dir = wp_upload_dir();
                 $attachment = array(
-                    'guid' => $wp_upload_dir['url'] . '/' . basename( $filename ),
+                    'guid' => $wp_upload_dir['url'] . '/' . basename($filename),
                     'post_mime_type' => $wp_filetype,
                     'post_title' => preg_replace('/\.[^.]+$/', '', basename($filename)),
                     'post_content' => '',
                     'post_status' => 'publish',
                     'post_author' => $this->token_data->user_id
                 );
-                wp_insert_attachment( $attachment, $filename);
+                $image_attachment_id = wp_insert_attachment($attachment, $filename);
+                require_once(ABSPATH . 'wp-admin/includes/image.php');
+                $attach_data = wp_generate_attachment_metadata( $image_attachment_id, $filename );
+                wp_update_attachment_metadata($image_attachment_id, $attach_data);
             }
 
             $postcard = array(
@@ -235,6 +246,9 @@ class PostcardApi
                 "width" => $image_size["width"],
                 "height" => $image_size["height"],
             );
+            $extras = array(
+                "image_attachment_id" => $image_attachment_id,
+            );
 
             if ($video_result != NULL) {
                 $postcard["video"] = $video_result["url"];
@@ -242,14 +256,15 @@ class PostcardApi
                 $filename = $video_result['file'];
                 $wp_upload_dir = wp_upload_dir();
                 $attachment = array(
-                    'guid' => $wp_upload_dir['url'] . '/' . basename( $filename ),
+                    'guid' => $wp_upload_dir['url'] . '/' . basename($filename),
                     'post_mime_type' => $wp_filetype,
                     'post_title' => preg_replace('/\.[^.]+$/', '', basename($filename)),
                     'post_content' => '',
                     'post_status' => 'publish',
                     'post_author' => $this->token_data->user_id
                 );
-                wp_insert_attachment( $attachment, $filename);
+                $video_attachment_id = wp_insert_attachment($attachment, $filename);
+                $extras["video_attachment_id"] = $video_attachment_id;
             }
 
             $posts_table_name = $wpdb->prefix . "pc_postcards";
@@ -258,17 +273,22 @@ class PostcardApi
 
             require_once("tasks.php");
             $tags = postcard_parse_message_for_tags($postcard);
+            $extras['hashtags'] = $tags;
             if (isset($this->data["tags"])) {
                 $pvt_tags = explode(",", $this->data["tags"]);
+                $extras['private_tags'] = $pvt_tags;
                 $tags = array_unique(array_merge($tags, $pvt_tags));
+            } else {
+                $extras['private_tags'] = array();
             }
             postcard_add_tags($tags, $postcard);
 
             $postcard['permalink'] = postcard_get_permalink($postcard["id"]);
 
-            $postcard = apply_filters( 'postcard_new_content', $postcard);
+            $postcard_data = array_merge($postcard, $extras);
+            $postcard_data = apply_filters('postcard_new_content', $postcard_data);
 
-            postcard_success_response($postcard, "Successfully added postcard");
+            postcard_success_response($postcard_data, "Successfully added postcard");
         } else {
             postcard_error_response($image_result['error']);
         }
@@ -294,6 +314,9 @@ class PostcardApi
     private function post_search()
     {
         require_once("postcard-functions.php");
+        if ($this->data["tags"] != NULL) { //explode tags on the comma if it exists
+            $this->data["tags"] = explode(",", $this->data["tags"]);
+        }
         $results = postcard_get_collection($this->data);
         if (!is_array($results)) {
             postcard_error_response("Error while trying to get postcards");
@@ -333,7 +356,7 @@ class PostcardApi
         $this->requireFields(array("id"));
         require_once("postcard-functions.php");
         $user = postcard_get_user_by_id($this->data["id"]);
-        if($user){
+        if ($user) {
             postcard_success_response($user, "Postcard user found");
         } else {
             postcard_error_response("User not found");

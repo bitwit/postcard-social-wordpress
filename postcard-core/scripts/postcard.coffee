@@ -34,6 +34,7 @@ class PostcardModal
   modalWindow: null
   currentPostcard: null
   mediaSectionDimensions: null
+  params: null #additional query parameters to include in next/prev search i.e. tags
 
   constructor: ->
     @modalWindow = jQuery("#postcard-modal-window")
@@ -68,7 +69,8 @@ class PostcardModal
 
   #looks at currently displayed postcard and gets next one to be displayed
   next: ->
-    jQuery.ajax "/?postcard_api=true&endpoint=post/search&before=#{@currentPostcard.id}&image=true&limit=1",
+    url = "/?postcard_api=true&endpoint=post/search&before=#{@currentPostcard.postcard_id}&image=true&limit=1" + if @params? then "&#{@params}" else ""
+    jQuery.ajax url,
       success: (data, textStatus, jqXHR) =>
         if data.payload.length >= 1
           @display data.payload[0]
@@ -77,7 +79,8 @@ class PostcardModal
 
   #looks at currently displayed postcard and gets previous one to be displayed
   prev: ->
-    jQuery.ajax "/?postcard_api=true&endpoint=post/search&since=#{@currentPostcard.id}&image=true&limit=1",
+    url = "/?postcard_api=true&endpoint=post/search&since=#{@currentPostcard.postcard_id}&image=true&limit=1" + if @params? then "&#{@params}" else ""
+    jQuery.ajax url,
       success: (data, textStatus, jqXHR) =>
         if data.payload.length >= 1
           @display data.payload[0]
@@ -87,7 +90,7 @@ class PostcardModal
   #takes a postcard object and sets it up for display
   display: (postcard) ->
     @currentPostcard = postcard
-    @modalWindow.find(".message-container .value").text postcard.message
+    @modalWindow.find(".message-container .value").html postcard.message
 
     infoContainer = @modalWindow.find(".info-container")
     profile = "<img class=\"profile-pic\" src=\"/?postcard_api=true&endpoint=user/picture&id=#{postcard.user_id}\" />"
@@ -116,9 +119,11 @@ class PostcardModal
         nHeight = @mediaSectionDimensions.height
         paddingCSS = null
 
-      video = jQuery("<video id=\"video-#{postcard.id}\" width=\"#{nWidth}\" height=\"#{nHeight}\" controls loop preload=\"auto\"><source src=\"#{postcard.video}\" type=\"video/mp4\"></video>")
+      video = jQuery("<video id=\"video-#{postcard.postcard_id}\" width=\"#{nWidth}\" height=\"#{nHeight}\" controls loop><source src=\"#{postcard.video}\" type=\"video/mp4\"></video>")
       @modalWindow.find(".media-container").html video
-      jQuery("#video-#{postcard.id}").css(paddingCss).get(0).play()
+      video.attr 'autoplay','autoplay'
+      video.css paddingCss
+
     else
       nImg = new Image()
       nImg.onload = =>
@@ -147,7 +152,9 @@ class PostcardModal
       height: mediaSection.height()
 
 jQuery(document).ready () ->
-  postcard = new PostcardModal();
+  postcard = new PostcardModal()
+  params = jQuery('.postcard-gallery').data "params"
+  postcard.params = params
   jQuery('.postcard-gallery .postcard-container').click ->
       pc_id = jQuery(@).data "postcard-id"
       postcard.expand pc_id

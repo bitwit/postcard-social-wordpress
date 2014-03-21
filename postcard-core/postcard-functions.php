@@ -6,10 +6,15 @@ function postcard_gallery($options=null){
         $results = array($results); //puts a single into an array (this occurs due to get_by_id calls)
     }
     ob_start();
-    echo "<ul class='postcard-gallery'>";
+    echo "<ul class='postcard-gallery'";
+    if(isset($options["tags"]) && $options["tags"] != NULL) {
+        echo " data-params='tags=". implode(",", $options["tags"]) . "'";
+    }
+    echo ">";
+
     foreach($results as $postcard):
 ?>
-     <li class="postcard-container" data-postcard-id="<?php echo $postcard->id; ?>">
+     <li class="postcard-container" data-postcard-id="<?php echo $postcard->postcard_id; ?>">
         <img class="thumbnail" src="<?php echo substr_replace($postcard->image,"-160x160", -4, 0); ?>">
 <?php
         if($postcard->video){
@@ -86,11 +91,11 @@ function postcard_feed($options=null){
                         Visit Link
                     </a>
                 <?php endif; ?>
-                <a class="postcard-permalink" href="<?php echo postcard_get_permalink($postcard->id); ?>">Permalink</a>
+                <a class="postcard-permalink" href="<?php echo postcard_get_permalink($postcard->postcard_id); ?>">Permalink</a>
             </div>
             <?php if($postcard->video != null): ?>
             <div class="video-container">
-                <video id="video-<?php echo $postcard->id; ?>" controls loop preload="auto">
+                <video id="postcard-video-<?php echo $postcard->postcard_id; ?>" class="video-js" controls loop preload="auto">
                     <source src="<?php echo $postcard->video; ?>" type="video/mp4">
                 </video>
             </div>
@@ -189,7 +194,7 @@ function postcard_process_shortcode($atts){
 function postcard_get_by_id($id){
     global $wpdb;
     $postcards_table = $wpdb->prefix . "pc_postcards";
-    $query = "SELECT * FROM $postcards_table WHERE id='$id'";
+    $query = "SELECT *, $postcards_table.id as postcard_id FROM $postcards_table WHERE id='$id'";
     $result = $wpdb->get_row($query);
     return $result;
 }
@@ -310,7 +315,7 @@ function postcard_get_collection($params = null){
         $where_statement = "WHERE " . $where_statement;
     }
 
-    $query = sprintf("SELECT * FROM $postcards_table $join_statement $where_statement GROUP BY $postcards_table.%s HAVING COUNT($postcards_table.%s) >= 1 ORDER BY $postcards_table.%s LIMIT %s", $options["group"], $options["group"], $options["order"], $options["limit"]);
+    $query = sprintf("SELECT *, $postcards_table.id as postcard_id FROM $postcards_table $join_statement $where_statement GROUP BY $postcards_table.%s HAVING COUNT($postcards_table.%s) >= 1 ORDER BY $postcards_table.%s LIMIT %s", $options["group"], $options["group"], $options["order"], $options["limit"]);
 
     $results = $wpdb->get_results($query);
     return $results;

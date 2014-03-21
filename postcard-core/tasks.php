@@ -3,7 +3,7 @@
 function postcard_parse_message_for_tags($postcard){
     $pattern = "/(?:^|\s)(\#\w+)/";
     preg_match_all($pattern, $postcard["message"], $matches, PREG_OFFSET_CAPTURE);
-    $matches = $matches[0];  # only need fits array of matches
+    $matches = $matches[0];  # only need first array of matches
     $tags = array();
     foreach ($matches as $match){
         $tags[] = trim(str_replace("#","", $match[0]));

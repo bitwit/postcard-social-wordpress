@@ -40,7 +40,7 @@ This shortcode will create a feed of content that is queryable using url (a.k.a.
 When you first install Postcard a page is created with this shortcode and used as your permalink url for all future shared content, should you choose to host picture/video content when sharing to other networks
 
 **[postcard-feed]**
-This shortcode will create feed od content that is filterable via attributes such as:
+This shortcode will create feed of content that is filterable via attributes such as:
 
     [postcard-feed tags="interesting,useful"]
 
@@ -50,10 +50,23 @@ This shortcode will create an image gallery and only display image and video con
     [postcard-gallery count=20]
 
 **#profile**
-If you tag a photo upload with #profile or privataely tag it with 'profile' this will become your effective new 'profile picture'
+If you tag a photo upload with #profile or privately tag it with 'profile' this will become your effective new 'profile picture'
 that is used in the gallery overlay
 
 == Changelog ==
+
+= 1.4 =
+* Several new settings to manage auto-creating new posts for every piece of social content
+* Auto post - Titles can be the first line of your message
+* Auto post - Tags and hashtags can be translated to WordPress categories and tags various ways
+* Auto post - Feature image can be set automatically
+* Postcard backend menus now appear based on 'manage_options' capability rather than 'edit_themes'
+* fixes issue with galleries filtered by tags not showing in the modal overlay
+* fixes issue with galleries filtered by tags not paging properly when Next/Previous buttons are clicked
+* fixes issue with content not being searchable by tags
+* fixes issue with a warning message related to mktime() being in the response
+* fixes issue with gallery videos not auto-playing
+* image attachments now get appropriate thumbnails generated and show up properly in the media section
 
 = 1.3 =
 * Postcard API launches after 'after_setup_theme' instead of 'plugins_loaded' to allow themes to listen for actions/hooks and modify
