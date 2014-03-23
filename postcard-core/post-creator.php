@@ -23,6 +23,7 @@ function postcard_generate_new_post($postcard)
     $post_id = wp_insert_post($post);
     $new_permalink = get_permalink($post_id);
     $postcard["permalink"] = $new_permalink;
+    $postcard["post_id"] = $post_id;
     postcard_evaluate_feature_image_option($postcard, $post_id);
 
     //Have a way to associate the original content with this post
@@ -73,20 +74,16 @@ function postcard_get_post_content($postcard){
         case 0:
             return "[postcard-feed id='" . $postcard["id"] . "']";
             break;
+
         case 1:
             ob_start();
-            include("templates/post-template.php");
+            require_once("templates/post-template-default.php");
             return ob_get_clean();
         break;
 
         case 2:
             ob_start();
-            $template = get_option("postcard_auto_post_template");
-            if (!$template) {
-                include("templates/post-template.php");
-            } else {
-                eval($template);
-            }
+            require_once("templates/post-template.php");
             return ob_get_clean();
             break;
 

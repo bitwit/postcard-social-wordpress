@@ -1,50 +1,77 @@
 <?php
-if (isset($_POST['postcard_auto_post'])) {
-    update_option('postcard_auto_post', $_POST['postcard_auto_post']);
-    ?>
-    <div id="message" class="updated below-h2">
-        <p>Updated Auto-Post settings</p>
-    </div>
-<?php
-}
 
-if (isset($_POST['postcard_auto_post_title'])) {
-    update_option('postcard_auto_post_title', $_POST['postcard_auto_post_title']);
-    ?>
-    <div id="message" class="updated below-h2">
-        <p>Updated Auto-Post title settings</p>
-    </div>
-<?php
-}
-if (isset($_POST['postcard_auto_post_content'])) {
-    $option = $_POST['postcard_auto_post_content'];
-    update_option('postcard_auto_post_content', $option);
-    if ($option == 2 && isset($_POST['postcard_auto_post_template'])) {
-        update_option("postcard_auto_post_template", $_POST['postcard_auto_post_template']);
+if (!empty($_POST)) {
+    check_admin_referer('postcard-social-settings');
+
+    if (isset($_POST['postcard_auto_post'])) {
+        update_option('postcard_auto_post', $_POST['postcard_auto_post']);
+        ?>
+        <div class="updated below-h2">
+            <p>Updated Auto-Post settings</p>
+        </div>
+    <?php
     }
-    ?>
-    <div id="message" class="updated below-h2">
-        <p>Updated Auto-Post content settings</p>
-    </div>
-<?php
-}
 
-if (isset($_POST['postcard_auto_post_tag'])) {
-    update_option('postcard_auto_post_tag', $_POST['postcard_auto_post_tag']);
-    ?>
-    <div id="message" class="updated below-h2">
-        <p>Updated Auto-Post tag settings</p>
-    </div>
-<?php
-}
+    if (isset($_POST['postcard_auto_post_title'])) {
+        update_option('postcard_auto_post_title', $_POST['postcard_auto_post_title']);
+        ?>
+        <div class="updated below-h2">
+            <p>Updated Auto-Post title settings</p>
+        </div>
+    <?php
+    }
+    if (isset($_POST['postcard_auto_post_content'])) {
+        $option = $_POST['postcard_auto_post_content'];
+        update_option('postcard_auto_post_content', $option);
+        if ($option == 2 && isset($_POST['postcard_auto_post_template'])) {
+            //update_option("postcard_auto_post_template", $_POST['postcard_auto_post_template']);
+            $form_fields = array('postcard_auto_post_template');
+            $url = wp_nonce_url('admin.php?page=postcard','postcard-social-settings');
 
-if (isset($_POST['postcard_auto_post_image_feature'])) {
-    update_option('postcard_auto_post_image_feature', $_POST['postcard_auto_post_image_feature']);
-    ?>
-    <div id="message" class="updated below-h2">
-        <p>Updated Auto-Post image settings</p>
-    </div>
-<?php
+            if (false === ($creds = request_filesystem_credentials($url, "", false, false, $form_fields) ) ) {
+                // if we get here, then we don't have credentials yet,
+                // but have just produced a form for the user to fill in,
+                // so stop processing for now
+                echo '<div class="error below-h2"><p>Error writing custom template file</p></div>';
+                return true; // stop the normal page form from displaying
+            }
+
+            if ( ! WP_Filesystem($creds) ) {
+                // our credentials were no good, ask the user for them again
+                request_filesystem_credentials($url, '', true, false, $form_fields);
+                echo '<div class="error below-h2"><p>Error writing custom template file</p></div>';
+                return true;
+            } else {
+                global $wp_filesystem;
+                if ( ! $wp_filesystem->put_contents( plugin_dir_path(__FILE__) . "../templates/post-template.php", $_POST['postcard_auto_post_template'], FS_CHMOD_FILE) ) {
+                    echo 'error saving file!';
+                }
+            }
+        }
+        ?>
+        <div class="updated below-h2">
+            <p>Updated Auto-Post content settings</p>
+        </div>
+    <?php
+    }
+
+    if (isset($_POST['postcard_auto_post_tag'])) {
+        update_option('postcard_auto_post_tag', $_POST['postcard_auto_post_tag']);
+        ?>
+        <div class="updated below-h2">
+            <p>Updated Auto-Post tag settings</p>
+        </div>
+    <?php
+    }
+
+    if (isset($_POST['postcard_auto_post_image_feature'])) {
+        update_option('postcard_auto_post_image_feature', $_POST['postcard_auto_post_image_feature']);
+        ?>
+        <div class="updated below-h2">
+            <p>Updated Auto-Post image settings</p>
+        </div>
+    <?php
+    }
 }
 
 ?>
@@ -180,6 +207,7 @@ if (isset($_POST['postcard_auto_post_image_feature'])) {
         <h2>Settings</h2>
 
         <form id="postcard-options-form" method="post">
+            <?php wp_nonce_field('postcard-social-settings'); ?>
             <button class="postcard-save">Save</button>
 
             <div class="postcard-intro">
@@ -280,21 +308,21 @@ if (isset($_POST['postcard_auto_post_image_feature'])) {
 
                     <br/>
                     <input type="radio" name="postcard_auto_post_content"
-                           value="1"<?php if ($postContent) echo " checked"; ?>/>
+                           value="1"<?php if ($postContent == 1) echo " checked"; ?>/>
                     <label>The social content (Full message, then link, then image or video)</label>
 
                     <br/>
                     <input type="radio" name="postcard_auto_post_content"
-                           value="2"<?php if ($postContent) echo " checked"; ?>/>
+                           value="2"<?php if ($postContent == 2) echo " checked"; ?>/>
                     <label>Create the content based on my template:</label>
                     <br/>
                     <textarea id="postcard_auto_post_template" name="postcard_auto_post_template">
                         <?php
                         $template = get_option("postcard_auto_post_template");
                         if (!$template) {
-                            readfile(plugin_dir_path(__FILE__) . "../templates/post-template.php");
+                            readfile(plugin_dir_path(__FILE__) . "../templates/post-template-default.php");
                         } else {
-                            echo $template;
+                            readfile(plugin_dir_path(__FILE__) . "../templates/post-template.php");
                         }
                         ?>
                     </textarea>
