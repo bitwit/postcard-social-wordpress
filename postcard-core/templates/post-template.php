@@ -3,8 +3,8 @@
 if (isset($postcard["url"])):
     ?><a target="_blank" class="postcard-link" href="<?php echo $postcard["url"] ?>">Visit Link</a><?php endif;
 if (isset($postcard["video"])): ?>
-    <video id="video-<?php echo $postcard["id"]; ?>" controls loop preload="auto">
-        <source src="<?php echo $postcard["video"]; ?>" type="video/mp4">
+    <video id="postcard-video-<?php echo $postcard["id"]; ?>" poster="<?php echo $postcard["image"]; ?>" width="<?php echo $postcard["width"]; ?>" height="<?php echo $postcard["height"]; ?>" class="video-js vjs-default-skin" data-setup='{}' controls loop preload="auto">
+    <source src="<?php echo $postcard->video; ?>" type="video/mp4">
     </video><?php
 elseif (isset($postcard["image"])): ?>
     <img class="aligncenter size-full wp-image-<?php echo $postcard["image_attachment_id"]; ?>" src="<?php echo $postcard["image"]; ?>"><?php

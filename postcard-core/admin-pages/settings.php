@@ -16,6 +16,18 @@ if (isset($_POST['postcard_auto_post_title'])) {
     </div>
 <?php
 }
+if (isset($_POST['postcard_auto_post_content'])) {
+    $option = $_POST['postcard_auto_post_content'];
+    update_option('postcard_auto_post_content', $option);
+    if ($option == 2 && isset($_POST['postcard_auto_post_template'])) {
+        update_option("postcard_auto_post_template", $_POST['postcard_auto_post_template']);
+    }
+    ?>
+    <div id="message" class="updated below-h2">
+        <p>Updated Auto-Post content settings</p>
+    </div>
+<?php
+}
 
 if (isset($_POST['postcard_auto_post_tag'])) {
     update_option('postcard_auto_post_tag', $_POST['postcard_auto_post_tag']);
@@ -72,9 +84,11 @@ if (isset($_POST['postcard_auto_post_image_feature'])) {
             line-height: 21px;
         }
 
+        /*
         #postcard-options-form {
             width: 700px;
         }
+        */
 
         .postcard-primary-options {
             clear: both;
@@ -123,6 +137,11 @@ if (isset($_POST['postcard_auto_post_image_feature'])) {
             clear: left;
         }
 
+        #postcard_auto_post_template {
+            width: 100%;
+            height: 300px;
+        }
+
     </style>
     <script>
         jQuery(document).ready(function () {
@@ -133,6 +152,18 @@ if (isset($_POST['postcard_auto_post_image_feature'])) {
                 jQuery(this).find('input[type="radio"]').prop('checked', true);
                 evaluatePrimaryOption();
             });
+
+            jQuery("input:radio[name='postcard_auto_post_content']").on("click", function () {
+                var postOption = jQuery(this).val();
+                if (postOption == 2) {
+                    jQuery("#postcard_auto_post_template").show();
+                } else {
+                    jQuery("#postcard_auto_post_template").hide();
+                }
+            });
+            if (jQuery("input:radio[name='postcard_auto_post_content']:checked").val() != 2) {
+                jQuery("#postcard_auto_post_template").hide();
+            }
 
         });
         function evaluatePrimaryOption() {
@@ -181,7 +212,7 @@ if (isset($_POST['postcard_auto_post_image_feature'])) {
                 <h3>Core Features</h3>
 
                 <p>No matter how you choose to use Postcard, these features are always available:</p>
-                <h4>Shortcodes</h4>
+                <h4 style="text-decoration: underline;">Shortcodes</h4>
                 <dl>
                     <dt>
                         [postcard-feed]
@@ -215,14 +246,13 @@ if (isset($_POST['postcard_auto_post_image_feature'])) {
                         shared content, should you choose to host picture/video content when sharing to other networks
                     </dd>
                 </dl>
-                <h4>Behaviours</h4>
+                <h4 style="text-decoration: underline;">Behaviours</h4>
                 <dl>
                     <dt>#profile</dt>
                     <dd>
-                        If you tag a photo upload with #profile or privataely tag it with 'profile' this will become
-                        your effective
-                        new 'profile picture'
-                        that is used in the gallery overlay
+                        If you tag a photo upload with #profile or privately tag it with 'profile' this will become
+                        your effective new 'profile picture' that is used in the feed &amp; gallery overlays. Each user
+                        may have one.
                     </dd>
                 </dl>
             </div>
@@ -240,6 +270,34 @@ if (isset($_POST['postcard_auto_post_image_feature'])) {
                     <input type="radio" name="postcard_auto_post_title"
                            value="1"<?php if ($postTitle) echo " checked"; ?>/>
                     <label>"Status Update - " &amp; the date</label>
+                </div>
+                <div class="postcard-post-option">
+                    <?php $postContent = get_option("postcard_auto_post_content"); ?>
+                    <h4>Set the content of the post as:</h4>
+                    <input type="radio" name="postcard_auto_post_content"
+                           value="0"<?php if (!$postContent) echo " checked"; ?>/>
+                    <label>A <strong>[postcard-feed]</strong> shortcode embed</label>
+
+                    <br/>
+                    <input type="radio" name="postcard_auto_post_content"
+                           value="1"<?php if ($postContent) echo " checked"; ?>/>
+                    <label>The social content (Full message, then link, then image or video)</label>
+
+                    <br/>
+                    <input type="radio" name="postcard_auto_post_content"
+                           value="2"<?php if ($postContent) echo " checked"; ?>/>
+                    <label>Create the content based on my template:</label>
+                    <br/>
+                    <textarea id="postcard_auto_post_template" name="postcard_auto_post_template">
+                        <?php
+                        $template = get_option("postcard_auto_post_template");
+                        if (!$template) {
+                            readfile(plugin_dir_path(__FILE__) . "../templates/post-template.php");
+                        } else {
+                            echo $template;
+                        }
+                        ?>
+                    </textarea>
                 </div>
                 <div class="postcard-post-option">
                     <?php $postTag = get_option("postcard_auto_post_tag"); ?>

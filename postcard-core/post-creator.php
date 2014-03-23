@@ -67,9 +67,34 @@ function postcard_get_post_title($postcard)
 }
 
 function postcard_get_post_content($postcard){
-    ob_start();
-    include("templates/post-template.php");
-    return ob_get_clean();
+
+    $postContent = get_option("postcard_auto_post_content");
+    switch($postContent){
+        case 0:
+            return "[postcard-feed id='" . $postcard["id"] . "']";
+            break;
+        case 1:
+            ob_start();
+            include("templates/post-template.php");
+            return ob_get_clean();
+        break;
+
+        case 2:
+            ob_start();
+            $template = get_option("postcard_auto_post_template");
+            if (!$template) {
+                include("templates/post-template.php");
+            } else {
+                eval($template);
+            }
+            return ob_get_clean();
+            break;
+
+        default:
+            return "";
+            break;
+
+    }
 }
 
 function postcard_get_post_tags_categories($postcard)

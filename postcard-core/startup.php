@@ -61,10 +61,10 @@ function postcard_footer_scripts(){
 
 function postcard_admin_menus()
 {
-    add_menu_page("Instructions", "Postcard", "manage_options", "postcard", "display_postcard_instructions");
-    add_submenu_page("postcard", "Instructions", "Instructions", "manage_options", "postcard_instructions", "display_postcard_instructions");
+    add_menu_page("Settings", "Postcard", "manage_options", "postcard", "display_postcard_settings", plugins_url('/img/admin-icon.png', __FILE__));
     add_submenu_page("postcard", "My postcards", "My postcards", "manage_options", "postcard_listing", "display_postcard_list");
-    add_submenu_page("postcard", "Settings", "Settings", "manage_options", "postcard_settings", "display_postcard_settings");
+    //add_submenu_page("postcard", "Instructions", "Instructions", "manage_options", "postcard_instructions", "display_postcard_instructions");
+    //add_submenu_page("postcard", "Settings", "Settings", "manage_options", "postcard_settings", "display_postcard_settings");
 }
 
 function display_postcard_instructions()
