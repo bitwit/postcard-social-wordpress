@@ -74,16 +74,20 @@ function postcard_get_post_content($postcard){
         case 0:
             return "[postcard-feed id='" . $postcard["id"] . "']";
             break;
-
         case 1:
             ob_start();
-            require_once("templates/post-template-default.php");
+            include("templates/post-template-default.php");
             return ob_get_clean();
         break;
 
         case 2:
             ob_start();
-            require_once("templates/post-template.php");
+            $template = get_option("postcard_auto_post_template");
+            if (!$template) {
+                include("templates/post-template-default.php");
+            } else {
+                eval(stripslashes($template));
+            }
             return ob_get_clean();
             break;
 
