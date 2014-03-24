@@ -221,13 +221,16 @@ PostcardModal = (function() {
 })();
 
 jQuery(document).ready(function() {
-  var params, postcard;
-  postcard = new PostcardModal();
-  params = jQuery('.postcard-gallery').data("params");
-  postcard.params = params;
-  return jQuery('.postcard-gallery .postcard-container').click(function() {
-    var pc_id;
-    pc_id = jQuery(this).data("postcard-id");
-    return postcard.expand(pc_id);
-  });
+  var gallery, params, postcard;
+  gallery = jQuery('.postcard-gallery');
+  if (gallery.length > 0) {
+    params = gallery.data("params");
+    postcard = new PostcardModal();
+    postcard.params = params;
+    return jQuery(".postcard-gallery .postcard-container").click(function() {
+      var pc_id;
+      pc_id = jQuery(this).data("postcard-id");
+      return postcard.expand(pc_id);
+    });
+  }
 });

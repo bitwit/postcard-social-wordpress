@@ -157,9 +157,13 @@ class PostcardModal
       height: mediaSection.height()
 
 jQuery(document).ready () ->
-  postcard = new PostcardModal()
-  params = jQuery('.postcard-gallery').data "params"
-  postcard.params = params
-  jQuery('.postcard-gallery .postcard-container').click ->
-      pc_id = jQuery(@).data "postcard-id"
-      postcard.expand pc_id
+  #gallery view code
+  #check if there's one on the page and prepare it
+  gallery = jQuery('.postcard-gallery')
+  if gallery.length > 0
+    params = gallery.data "params"
+    postcard = new PostcardModal()
+    postcard.params = params
+    jQuery(".postcard-gallery .postcard-container").click ->
+        pc_id = jQuery(@).data "postcard-id"
+        postcard.expand pc_id
