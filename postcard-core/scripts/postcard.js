@@ -222,6 +222,13 @@ PostcardModal = (function() {
 
 jQuery(document).ready(function() {
   var gallery, params, postcard;
+  jQuery('video.video-js').each(function() {
+    return jQuery('video.video-js').each(function() {
+      var video;
+      video = jQuery(this);
+      return videojs(video.attr('id'));
+    });
+  });
   gallery = jQuery('.postcard-gallery');
   if (gallery.length > 0) {
     params = gallery.data("params");

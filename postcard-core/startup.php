@@ -48,11 +48,11 @@ function postcard_enqueue_styles()
 
 function postcard_enqueue_scripts()
 {
-    wp_register_script('postcard-script', plugins_url('/scripts/postcard.js', __FILE__), array('jquery'));
-    wp_enqueue_script('postcard-script');
-
-    wp_register_script('postcard-video-scripts', plugins_url('/vendor/video-js/video.js', __FILE__), array('jquery'));
+    wp_register_script('postcard-video-scripts', plugins_url('/vendor/video-js/video.js', __FILE__), array());
     wp_enqueue_script('postcard-video-scripts');
+
+    wp_register_script('postcard-script', plugins_url('/scripts/postcard.js', __FILE__), array('jquery'), false, true);
+    wp_enqueue_script('postcard-script');
 }
 
 function postcard_footer_scripts(){

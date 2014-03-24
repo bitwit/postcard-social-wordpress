@@ -157,6 +157,12 @@ class PostcardModal
       height: mediaSection.height()
 
 jQuery(document).ready () ->
+  #video code for feed views
+  jQuery('video.video-js').each ->
+    jQuery('video.video-js').each ->
+      video = jQuery(@)
+      videojs video.attr('id')
+
   #gallery view code
   #check if there's one on the page and prepare it
   gallery = jQuery('.postcard-gallery')
