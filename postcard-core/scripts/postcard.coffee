@@ -163,24 +163,24 @@ jQuery(document).ready () ->
     jQuery('video.video-js').each ->
       video = jQuery(@)
       console.log 'video', video
-      container_width = video.parent().width()
-      ratio = container_width / video.data('width')
-      ###
-      options = {
-        width: container_width
-        height: video.data('height') * ratio
-        poster: video.data 'poster'
-
-      }
-      videojs video.attr('id'), options
-      ###
-      ###
+      video_container_width = video.parent().width()
+      media_container = video.parents('.media-container')
+      image_container = video.parent().next()
+      ratio = video_container_width / video.data('width')
+      media_container.css({
+        width: video_container_width + "px"
+        height: (video.data('height') * ratio) + "px"
+      })
       video
-        .attr("width", container_width)
+        .attr("width", video_container_width)
         .attr("height", video.data('height') * ratio)
         .attr("poster", video.data('poster'))
 
-      ###
+      console.log 'image container', image_container
+      image_container.on 'click', ->
+        console.log 'image container click'
+        jQuery(@).hide()
+        video.get(0).play()
 
   else
     console.log 'desktop'

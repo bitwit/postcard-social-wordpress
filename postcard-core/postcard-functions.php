@@ -93,17 +93,20 @@ function postcard_feed($options=null){
                 <?php endif; ?>
                 <a class="postcard-permalink" href="<?php echo postcard_get_permalink($postcard->postcard_id); ?>">Permalink</a>
             </div>
-            <?php if($postcard->video != null): ?>
-            <div class="video-container">
-                <video id="postcard-video-<?php echo $postcard->postcard_id; ?>" poster="<?php echo $postcard->image; ?>" width="<?php echo $postcard->width; ?>" height="<?php echo $postcard->height; ?>" class="video-js vjs-default-skin" controls loop>
-                    <source src="<?php echo $postcard->video; ?>" type="video/mp4">
-                </video>
+            <div class="media-container" style="width: <?php echo $postcard->width; ?>px; height: <?php echo $postcard->height; ?>px;">
+                <?php if($postcard->video != null): ?>
+                <div class="video-container">
+                    <video id="postcard-video-<?php echo $postcard->postcard_id; ?>" data-poster="<?php echo $postcard->image; ?>" data-width="<?php echo $postcard->width; ?>" data-height="<?php echo $postcard->height; ?>" class="video-js vjs-default-skin" controls loop>
+                        <source src="<?php echo $postcard->video; ?>" type="video/mp4">
+                    </video>
+                </div>
+                <?php endif; ?>
+                <?php if($postcard->image != null): ?>
+                <div class="image-container">
+                    <img class="feed-image" src="<?php echo $postcard->image; ?>">
+                </div>
+                <?php endif; ?>
             </div>
-            <?php elseif($postcard->image != null): ?>
-            <div class="image-container">
-                <img class="feed-image" src="<?php echo $postcard->image; ?>">
-            </div>
-            <?php endif; ?>
 <?php
             echo "</li>";
         endforeach;

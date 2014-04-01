@@ -102,19 +102,16 @@ ul.postcard-feed {
     font-size: 1.25em; }
   ul.postcard-feed a.postcard-permalink {
     display: none; }
-  ul.postcard-feed div.image-container, ul.postcard-feed div.video-container {
-    clear: both;
-    display: block;
-    float: left;
+  ul.postcard-feed div.media-container {
+    position: relative;
     margin-top: 0.625em;
-    margin-left: 4em;
-    padding: 0.3125em;
-    -webkit-box-shadow: 0 0 2px 1px #a6a6a6;
-    -moz-box-shadow: 0 0 2px 1px #a6a6a6;
-    box-shadow: 0 0 2px 1px #a6a6a6; }
+    margin-left: 4em; }
     @media all and (max-width: 480px) {
-      ul.postcard-feed div.image-container, ul.postcard-feed div.video-container {
-        margin-left: 0.625em; } }
+      ul.postcard-feed div.media-container {
+        margin-left: 0; } }
+  ul.postcard-feed div.image-container, ul.postcard-feed div.video-container {
+    position: absolute;
+    display: block; }
   ul.postcard-feed video {
     max-width: 100%; }
   ul.postcard-feed img.feed-image {

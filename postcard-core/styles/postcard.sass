@@ -119,16 +119,18 @@ ul.postcard-feed
   a.postcard-permalink
     display: none
 
-  div.image-container, div.video-container
-    clear: both
-    display: block
-    float: left
+  div.media-container
+    position: relative
+    //+single-box-shadow($medium-grey, 0, 0, 2px, 1px)
     margin-top: 10/$em
     margin-left: 64/$em
-    padding: 5/$em
-    +single-box-shadow($medium-grey, 0, 0, 2px, 1px)
+    //padding: 5/$em
     @media all and (max-width: 480px)
-      margin-left: 10/$em
+      margin-left: 0
+
+  div.image-container, div.video-container
+    position: absolute
+    display: block
 
   video
     max-width: 100%

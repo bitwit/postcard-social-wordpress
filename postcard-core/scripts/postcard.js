@@ -225,28 +225,24 @@ jQuery(document).ready(function() {
   if (window.innerWidth <= 480 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
     console.log('mobile');
     jQuery('video.video-js').each(function() {
-      var container_width, ratio, video;
+      var image_container, media_container, ratio, video, video_container_width;
       video = jQuery(this);
       console.log('video', video);
-      container_width = video.parent().width();
-      return ratio = container_width / video.data('width');
-      /*
-      options = {
-        width: container_width
-        height: video.data('height') * ratio
-        poster: video.data 'poster'
-      
-      }
-      videojs video.attr('id'), options
-      */
-
-      /*
-      video
-        .attr("width", container_width)
-        .attr("height", video.data('height') * ratio)
-        .attr("poster", video.data('poster'))
-      */
-
+      video_container_width = video.parent().width();
+      media_container = video.parents('.media-container');
+      image_container = video.parent().next();
+      ratio = video_container_width / video.data('width');
+      media_container.css({
+        width: video_container_width + "px",
+        height: (video.data('height') * ratio) + "px"
+      });
+      video.attr("width", video_container_width).attr("height", video.data('height') * ratio).attr("poster", video.data('poster'));
+      console.log('image container', image_container);
+      return image_container.on('click', function() {
+        console.log('image container click');
+        jQuery(this).hide();
+        return video.get(0).play();
+      });
     });
   } else {
     console.log('desktop');
