@@ -165,7 +165,7 @@ jQuery(document).ready () ->
       video = jQuery(@)
       video_container_width = video.parent().width()
       media_container = video.parents('.media-container')
-      image_container = video.parent().next()
+      image_container = video.parent('.video-container').next()
       ratio = video_container_width / video.data('width')
       media_container.css({
         width: video_container_width + "px"
@@ -176,7 +176,9 @@ jQuery(document).ready () ->
       .attr("height", video.data('height') * ratio)
       .attr("poster", video.data('poster'))
 
-      image_container.prepend('<span class="video-indicator"></span>')
+      if image_container.hasClass 'image-container'
+        image_container.prepend('<span class="video-indicator"></span>')
+
       image_container.click ->
         image_container.hide()
         video.get(0).play()
