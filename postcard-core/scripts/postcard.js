@@ -235,7 +235,7 @@ jQuery(document).ready(function() {
       media_container.css({
         width: video_container_width + "px",
         height: (video.data('height') * ratio) + "px"
-      });
+      }).prepend('<span class="video-indicator"></span>');
       video.attr("width", video_container_width).attr("height", video.data('height') * ratio).attr("poster", video.data('poster'));
       console.log('image container', image_container);
       return image_container.click(function() {

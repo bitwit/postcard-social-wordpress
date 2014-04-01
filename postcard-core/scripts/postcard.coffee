@@ -1,10 +1,10 @@
 stylePostText = (message) ->
-    text = message.text.replace /((https?|s?ftp|ssh)\:\/\/[^"\s\<\>]*[^.,;'">\:\s\<\>\)\]\!])/g, (F) ->
-        return '<a target="_blank" href="' + F + '">' + F + "</a>"
-    text = text.replace /\B@([_a-z0-9]+)/ig, (F) ->
-        return F.charAt(0) + '<a target="_blank" href="http://www.twitter.com/' + F.substring(1) + '">' + F.substring(1) + "</a>"
-    text = text.replace /\B#([_a-z0-9]+)/ig, (F) ->
-        return F.charAt(0) + '<a target="_blank" href="http://www.twitter.com/#!/search?q=' + F.substring(1) + '">' + F.substring(1) + "</a>"
+  text = message.text.replace /((https?|s?ftp|ssh)\:\/\/[^"\s\<\>]*[^.,;'">\:\s\<\>\)\]\!])/g, (F) ->
+    return '<a target="_blank" href="' + F + '">' + F + "</a>"
+  text = text.replace /\B@([_a-z0-9]+)/ig, (F) ->
+    return F.charAt(0) + '<a target="_blank" href="http://www.twitter.com/' + F.substring(1) + '">' + F.substring(1) + "</a>"
+  text = text.replace /\B#([_a-z0-9]+)/ig, (F) ->
+    return F.charAt(0) + '<a target="_blank" href="http://www.twitter.com/#!/search?q=' + F.substring(1) + '">' + F.substring(1) + "</a>"
 
 prettyDate = (time) ->
   date = new Date(time.replace(/-/g, "/").replace("T", " ").replace("+", " +"))
@@ -16,9 +16,9 @@ prettyDate = (time) ->
   if day_diff is 0
     if(diff < 60) then return Math.floor(diff) + " seconds ago"
     if(diff < 120) then return "1 minute ago"
-    if(diff < 3600) then return Math.floor(diff/60) + " minutes ago"
+    if(diff < 3600) then return Math.floor(diff / 60) + " minutes ago"
     if(diff < 7200) then return "1 hour ago"
-    if(diff < 86400) then return Math.floor(diff/3600) + " hours ago"
+    if(diff < 86400) then return Math.floor(diff / 3600) + " hours ago"
   else
     if(day_diff == 1) then return "1 day ago"
     if(day_diff < 7) then return day_diff + " days ago"
@@ -105,27 +105,29 @@ class PostcardModal
       vW = postcard.width
       vH = postcard.height
       if vW > vH
-        nHeight = @mediaSectionDimensions.height * (vH/vW)
+        nHeight = @mediaSectionDimensions.height * (vH / vW)
         nWidth = @mediaSectionDimensions.width
         pTop = (@mediaSectionDimensions.height - nHeight) / 2
-        paddingCss = "padding-top": pTop + "px"
+        paddingCss =
+          "padding-top": pTop + "px"
       else if vH > vW
-        nWidth = @mediaSectionDimensions.width * (vW/vH)
+        nWidth = @mediaSectionDimensions.width * (vW / vH)
         nHeight = @mediaSectionDimensions.height
         pLeft = (@mediaSectionDimensions.width - nWidth) / 2
-        paddingCss = "padding-left": pLeft + "px"
+        paddingCss =
+          "padding-left": pLeft + "px"
       else
         nWidth = @mediaSectionDimensions.width
         nHeight = @mediaSectionDimensions.height
         paddingCSS = null
 
 
-      video_id = "postcard-video-#{postcard.postcard_id}-" + (Math.floor(Math.random()*11))
+      video_id = "postcard-video-#{postcard.postcard_id}-" + (Math.floor(Math.random() * 11))
       video = jQuery("<video id=\"#{video_id}\" class=\"video-js vjs-default-skin\" width=\"#{nWidth}\" height=\"#{nHeight}\" controls loop><source src=\"#{postcard.video}\" type=\"video/mp4\"></video>")
       @modalWindow.find(".media-container").html video
-      video.attr 'autoplay','autoplay'
+      video.attr 'autoplay', 'autoplay'
       #video.css paddingCss
-      videojs(video_id, {width:@mediaSectionDimensions.width , height: @mediaSectionDimensions.height}, ->
+      videojs(video_id, {width: @mediaSectionDimensions.width, height: @mediaSectionDimensions.height}, ->
         console.log "video loaded"
       )
 
@@ -136,12 +138,12 @@ class PostcardModal
         iW = `this.width;`
         iH = `this.height;`
         if (iW > iH)
-          nHeight = @mediaSectionDimensions.height * (iH/iW)
+          nHeight = @mediaSectionDimensions.height * (iH / iW)
           pTop = (@mediaSectionDimensions.height - nHeight) / 2
           img.css
             "padding-top": pTop + "px"
         else
-          nWidth = @mediaSectionDimensions.width * (iW/iH)
+          nWidth = @mediaSectionDimensions.width * (iW / iH)
           pLeft = (@mediaSectionDimensions.width - nWidth) / 2
           img.css
             "padding-left": pLeft + "px"
@@ -170,18 +172,17 @@ jQuery(document).ready () ->
       media_container.css({
         width: video_container_width + "px"
         height: (video.data('height') * ratio) + "px"
-      })
-      video
-        .attr("width", video_container_width)
-        .attr("height", video.data('height') * ratio)
-        .attr("poster", video.data('poster'))
+      }).prepend('<span class="video-indicator"></span>')
+
+      video.attr("width", video_container_width)
+      .attr("height", video.data('height') * ratio)
+      .attr("poster", video.data('poster'))
 
       console.log 'image container', image_container
       image_container.click ->
         console.log 'image container click'
         image_container.hide()
         video.get(0).play()
-
   else
     console.log 'desktop'
     jQuery('video.video-js').each ->
@@ -209,5 +210,5 @@ jQuery(document).ready () ->
     postcard = new PostcardModal()
     postcard.params = params
     jQuery(".postcard-gallery .postcard-container").click ->
-        pc_id = jQuery(@).data "postcard-id"
-        postcard.expand pc_id
+      pc_id = jQuery(@).data "postcard-id"
+      postcard.expand pc_id
