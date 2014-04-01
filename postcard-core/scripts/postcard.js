@@ -238,7 +238,7 @@ jQuery(document).ready(function() {
       });
       video.attr("width", video_container_width).attr("height", video.data('height') * ratio).attr("poster", video.data('poster'));
       console.log('image container', image_container);
-      return image_container.on('click', function() {
+      return image_container.click(function() {
         console.log('image container click');
         image_container.hide();
         return video.get(0).play();

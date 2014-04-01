@@ -177,7 +177,7 @@ jQuery(document).ready () ->
         .attr("poster", video.data('poster'))
 
       console.log 'image container', image_container
-      image_container.on 'click', ->
+      image_container.click ->
         console.log 'image container click'
         image_container.hide()
         video.get(0).play()
