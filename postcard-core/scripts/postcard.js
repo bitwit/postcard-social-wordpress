@@ -228,9 +228,15 @@ jQuery(document).ready(function() {
     console.log('desktop');
     jQuery('video.video-js').each(function() {
       return jQuery('video.video-js').each(function() {
-        var video;
+        var options, video;
         video = jQuery(this);
-        return videojs(video.attr('id'));
+        options = {
+          width: video.data('width'),
+          height: video.data('height'),
+          poster: video.data('poster')
+        };
+        console.log('video options', options);
+        return videojs(video.attr('id', options));
       });
     });
   }

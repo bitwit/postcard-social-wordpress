@@ -165,11 +165,13 @@ jQuery(document).ready () ->
     jQuery('video.video-js').each ->
       jQuery('video.video-js').each ->
         video = jQuery(@)
-        videojs video.attr 'id', {
+        options = {
           width: video.data 'width'
           height: video.data 'height'
           poster: video.data 'poster'
         }
+        console.log 'video options', options
+        videojs video.attr 'id', options
 
   #gallery view code
   #check if there's one on the page and prepare it
