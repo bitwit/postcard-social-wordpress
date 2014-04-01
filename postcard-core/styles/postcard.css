@@ -104,12 +104,8 @@ ul.postcard-feed {
     display: none; }
   ul.postcard-feed div.media-container {
     position: relative;
-    margin-top: 0.625em;
-    margin-left: 4em;
+    margin: 0.625em auto 0;
     clear: both; }
-    @media all and (max-width: 480px) {
-      ul.postcard-feed div.media-container {
-        margin-left: 0; } }
   ul.postcard-feed div.image-container, ul.postcard-feed div.video-container {
     position: absolute;
     display: block; }
