@@ -164,9 +164,10 @@ jQuery(document).ready () ->
       video = jQuery(@)
       console.log 'video', video
       container_width = video.parent().width()
+      ratio = container_width / video.data('width')
       options = {
         width: container_width
-        height: video.data 'height'
+        height: video.data('height') * ratio
         poster: video.data 'poster'
       }
       console.log 'video options', options
