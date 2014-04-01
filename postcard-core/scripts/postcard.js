@@ -225,24 +225,22 @@ jQuery(document).ready(function() {
   if (window.innerWidth <= 480 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
     console.log('mobile');
     jQuery('video.video-js').each(function() {
-      var container_width, options, ratio, video;
+      var container_width, ratio, video;
       video = jQuery(this);
       console.log('video', video);
       container_width = video.parent().width();
       ratio = container_width / video.data('width');
-      options = {
-        width: container_width,
-        height: video.data('height') * ratio,
-        poster: video.data('poster')
-      };
-      return videojs(video.attr('id'), options);
       /*
-      video
-        .attr("width", container_width)
-        .attr("height", video.data('height') * ratio)
-        .attr("poster", video.data('poster'))
+      options = {
+        width: container_width
+        height: video.data('height') * ratio
+        poster: video.data 'poster'
+      
+      }
+      videojs video.attr('id'), options
       */
 
+      return video.attr("width", container_width).attr("height", video.data('height') * ratio).attr("poster", video.data('poster'));
     });
   } else {
     console.log('desktop');
@@ -253,7 +251,8 @@ jQuery(document).ready(function() {
       options = {
         width: video.data('width'),
         height: video.data('height'),
-        poster: video.data('poster')
+        poster: video.data('poster'),
+        preload: "auto"
       };
       console.log('video options', options);
       return videojs(video.attr('id'), options);

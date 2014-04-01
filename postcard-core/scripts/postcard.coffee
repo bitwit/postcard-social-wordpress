@@ -165,10 +165,12 @@ jQuery(document).ready () ->
       console.log 'video', video
       container_width = video.parent().width()
       ratio = container_width / video.data('width')
+      ###
       options = {
         width: container_width
         height: video.data('height') * ratio
         poster: video.data 'poster'
+
       }
       videojs video.attr('id'), options
       ###
@@ -176,7 +178,6 @@ jQuery(document).ready () ->
         .attr("width", container_width)
         .attr("height", video.data('height') * ratio)
         .attr("poster", video.data('poster'))
-      ###
 
   else
     console.log 'desktop'
@@ -187,6 +188,7 @@ jQuery(document).ready () ->
         width: video.data 'width'
         height: video.data 'height'
         poster: video.data 'poster'
+        preload: "auto"
       }
       console.log 'video options', options
       videojs video.attr('id'), options
