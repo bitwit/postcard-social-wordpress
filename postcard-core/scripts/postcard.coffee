@@ -174,10 +174,13 @@ jQuery(document).ready () ->
       }
       videojs video.attr('id'), options
       ###
+      ###
       video
         .attr("width", container_width)
         .attr("height", video.data('height') * ratio)
         .attr("poster", video.data('poster'))
+
+      ###
 
   else
     console.log 'desktop'

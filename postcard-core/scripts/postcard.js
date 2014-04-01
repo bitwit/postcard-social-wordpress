@@ -229,7 +229,7 @@ jQuery(document).ready(function() {
       video = jQuery(this);
       console.log('video', video);
       container_width = video.parent().width();
-      ratio = container_width / video.data('width');
+      return ratio = container_width / video.data('width');
       /*
       options = {
         width: container_width
@@ -240,7 +240,13 @@ jQuery(document).ready(function() {
       videojs video.attr('id'), options
       */
 
-      return video.attr("width", container_width).attr("height", video.data('height') * ratio).attr("poster", video.data('poster'));
+      /*
+      video
+        .attr("width", container_width)
+        .attr("height", video.data('height') * ratio)
+        .attr("poster", video.data('poster'))
+      */
+
     });
   } else {
     console.log('desktop');
