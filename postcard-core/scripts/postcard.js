@@ -240,7 +240,7 @@ jQuery(document).ready(function() {
       videojs video.attr('id'), options
       */
 
-      return video.attr("width", video.data('width')).attr("height", video.data('height')).attr("poster", video.data('poster'));
+      return video.attr("width", container_width).attr("height", video.data('height') * ratio).attr("poster", video.data('poster'));
     });
   } else {
     console.log('desktop');
