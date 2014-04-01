@@ -106,11 +106,17 @@ ul.postcard-feed {
     clear: both;
     display: block;
     float: left;
+    margin-top: 0.625em;
     margin-left: 6.875em;
     padding: 0.3125em;
     -webkit-box-shadow: 0 0 2px 1px #a6a6a6;
     -moz-box-shadow: 0 0 2px 1px #a6a6a6;
     box-shadow: 0 0 2px 1px #a6a6a6; }
+    @media all and (max-width: 480px) {
+      ul.postcard-feed div.image-container, ul.postcard-feed div.video-container {
+        margin-left: 0.625em; } }
+  ul.postcard-feed video {
+    max-width: 100%; }
   ul.postcard-feed img.feed-image {
     width: 100%; }
 
