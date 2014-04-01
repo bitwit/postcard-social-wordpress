@@ -225,13 +225,17 @@ jQuery(document).ready(function() {
   if (window.innerWidth <= 480 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
     console.log('mobile');
     jQuery('video.video-js').each(function() {
-      var video;
+      var container_width, options, video;
       video = jQuery(this);
       console.log('video', video);
-      return video.css({
-        width: video.data('width'),
-        height: video.data('height')
-      }).attr("poster", video.data('poster'));
+      container_width = video.parent().width();
+      options = {
+        width: container_width,
+        height: video.data('height'),
+        poster: video.data('poster')
+      };
+      console.log('video options', options);
+      return videojs(video.attr('id'), options);
     });
   } else {
     console.log('desktop');

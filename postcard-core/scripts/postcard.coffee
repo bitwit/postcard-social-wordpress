@@ -163,11 +163,15 @@ jQuery(document).ready () ->
     jQuery('video.video-js').each ->
       video = jQuery(@)
       console.log 'video', video
-      #container_width = video.parent().width()
-      video.css({
-        width: video.data 'width'
+      container_width = video.parent().width()
+      options = {
+        width: container_width
         height: video.data 'height'
-      }).attr("poster", video.data('poster'))
+        poster: video.data 'poster'
+      }
+      console.log 'video options', options
+      videojs video.attr('id'), options
+
   else
     console.log 'desktop'
     jQuery('video.video-js').each ->
