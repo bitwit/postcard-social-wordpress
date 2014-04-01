@@ -228,9 +228,7 @@ jQuery(document).ready(function() {
       var video;
       video = jQuery(this);
       console.log('video', video);
-      return video.css({
-        width: video.data('width')
-      }).attr("poster", video.data('poster'));
+      return video.css({}).attr("poster", video.data('poster'));
     });
   } else {
     console.log('desktop');
