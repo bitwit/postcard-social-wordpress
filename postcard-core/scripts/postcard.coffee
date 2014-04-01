@@ -158,7 +158,6 @@ class PostcardModal
 
 jQuery(document).ready () ->
   #video code for feed views
-
   if /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
     console.log 'mobile'
   else
@@ -166,7 +165,11 @@ jQuery(document).ready () ->
     jQuery('video.video-js').each ->
       jQuery('video.video-js').each ->
         video = jQuery(@)
-        videojs video.attr 'id'
+        videojs video.attr 'id', {
+          width: video.data 'width'
+          height: video.data 'height'
+          poster: video.data 'poster'
+        }
 
   #gallery view code
   #check if there's one on the page and prepare it
