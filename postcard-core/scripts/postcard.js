@@ -240,9 +240,7 @@ jQuery(document).ready(function() {
       console.log('image container', image_container);
       return image_container.on('click', function() {
         console.log('image container click');
-        jQuery(this).css({
-          display: "none"
-        });
+        image_container.hide();
         return video.get(0).play();
       });
     });

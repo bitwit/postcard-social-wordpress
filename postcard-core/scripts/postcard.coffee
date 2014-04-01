@@ -179,7 +179,7 @@ jQuery(document).ready () ->
       console.log 'image container', image_container
       image_container.on 'click', ->
         console.log 'image container click'
-        jQuery(@).css {display: "none"}
+        image_container.hide()
         video.get(0).play()
 
   else
