@@ -186,6 +186,11 @@ jQuery(document).ready () ->
     console.log 'desktop'
     jQuery('video.video-js').each ->
       video = jQuery(@)
+      image_container = video.parent().next()
+      console.log 'image container', image_container
+      image_container.hide()
+
+      video.parent().next().hide() #hide the image
       console.log 'video', video
       options = {
         width: video.data 'width'

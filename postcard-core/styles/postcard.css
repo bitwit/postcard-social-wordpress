@@ -105,7 +105,8 @@ ul.postcard-feed {
   ul.postcard-feed div.media-container {
     position: relative;
     margin-top: 0.625em;
-    margin-left: 4em; }
+    margin-left: 4em;
+    clear: both; }
     @media all and (max-width: 480px) {
       ul.postcard-feed div.media-container {
         margin-left: 0; } }

@@ -247,8 +247,12 @@ jQuery(document).ready(function() {
   } else {
     console.log('desktop');
     jQuery('video.video-js').each(function() {
-      var options, video;
+      var image_container, options, video;
       video = jQuery(this);
+      image_container = video.parent().next();
+      console.log('image container', image_container);
+      image_container.hide();
+      video.parent().next().hide();
       console.log('video', video);
       options = {
         width: video.data('width'),
