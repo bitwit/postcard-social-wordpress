@@ -171,7 +171,7 @@ jQuery(document).ready () ->
           poster: video.data 'poster'
         }
         console.log 'video options', options
-        videojs video.attr 'id', options
+        videojs video.attr('id'), options
 
   #gallery view code
   #check if there's one on the page and prepare it
