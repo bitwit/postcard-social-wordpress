@@ -227,7 +227,6 @@ jQuery(document).ready(function() {
     jQuery('video.video-js').each(function() {
       var image_container, media_container, ratio, video, video_container_width;
       video = jQuery(this);
-      console.log('video', video);
       video_container_width = video.parent().width();
       media_container = video.parents('.media-container');
       image_container = video.parent().next();
@@ -235,11 +234,10 @@ jQuery(document).ready(function() {
       media_container.css({
         width: video_container_width + "px",
         height: (video.data('height') * ratio) + "px"
-      }).prepend('<span class="video-indicator"></span>');
+      });
       video.attr("width", video_container_width).attr("height", video.data('height') * ratio).attr("poster", video.data('poster'));
-      console.log('image container', image_container);
+      image_container.prepend('<span class="video-indicator"></span>');
       return image_container.click(function() {
-        console.log('image container click');
         image_container.hide();
         return video.get(0).play();
       });

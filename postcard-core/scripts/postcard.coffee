@@ -164,7 +164,6 @@ jQuery(document).ready () ->
     console.log 'mobile'
     jQuery('video.video-js').each ->
       video = jQuery(@)
-      console.log 'video', video
       video_container_width = video.parent().width()
       media_container = video.parents('.media-container')
       image_container = video.parent().next()
@@ -172,15 +171,14 @@ jQuery(document).ready () ->
       media_container.css({
         width: video_container_width + "px"
         height: (video.data('height') * ratio) + "px"
-      }).prepend('<span class="video-indicator"></span>')
+      })
 
       video.attr("width", video_container_width)
       .attr("height", video.data('height') * ratio)
       .attr("poster", video.data('poster'))
 
-      console.log 'image container', image_container
+      image_container.prepend('<span class="video-indicator"></span>')
       image_container.click ->
-        console.log 'image container click'
         image_container.hide()
         video.get(0).play()
   else
