@@ -79,6 +79,7 @@ ul.postcard-feed {
       color: #a6a6a6;
       font-size: 1.25em; }
     ul.postcard-feed div.message-container span.postcard-message {
+      word-wrap: break-word;
       font-size: 1.25em; }
       ul.postcard-feed div.message-container span.postcard-message a {
         text-decoration: none; }
@@ -212,7 +213,8 @@ span.video-indicator {
     padding: 0.625em 0;
     text-align: center;
     line-height: 1.75em;
-    color: #666666; }
+    color: #666666;
+    word-wrap: break-word; }
     .postcard-modal .message-container .value {
       font-size: 1.375em; }
     @media all and (max-width: 720px) {
