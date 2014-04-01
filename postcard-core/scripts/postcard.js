@@ -229,8 +229,7 @@ jQuery(document).ready(function() {
       video = jQuery(this);
       console.log('video', video);
       return video.css({
-        width: video.data('width'),
-        height: video.data('height')
+        width: video.data('width')
       }).attr("poster", video.data('poster'));
     });
   } else {
