@@ -115,8 +115,6 @@ ul.postcard-feed {
     @media all and (max-width: 480px) {
       ul.postcard-feed div.image-container, ul.postcard-feed div.video-container {
         margin-left: 0.625em; } }
-  ul.postcard-feed video {
-    max-width: 100%; }
   ul.postcard-feed img.feed-image {
     width: 100%; }
 
