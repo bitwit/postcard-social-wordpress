@@ -225,22 +225,24 @@ jQuery(document).ready(function() {
   if (window.innerWidth <= 480 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
     console.log('mobile');
     jQuery('video.video-js').each(function() {
-      var container_width, ratio, video;
+      var container_width, options, ratio, video;
       video = jQuery(this);
       console.log('video', video);
       container_width = video.parent().width();
       ratio = container_width / video.data('width');
-      /*
       options = {
-        width: container_width
-        height: video.data('height') * ratio
-        poster: video.data 'poster'
-      }
-      console.log 'video options', options
-      videojs video.attr('id'), options
+        width: container_width,
+        height: video.data('height') * ratio,
+        poster: video.data('poster')
+      };
+      return videojs(video.attr('id'), options);
+      /*
+      video
+        .attr("width", container_width)
+        .attr("height", video.data('height') * ratio)
+        .attr("poster", video.data('poster'))
       */
 
-      return video.attr("width", container_width).attr("height", video.data('height') * ratio).attr("poster", video.data('poster'));
     });
   } else {
     console.log('desktop');
