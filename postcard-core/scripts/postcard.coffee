@@ -160,18 +160,24 @@ jQuery(document).ready () ->
   #video code for feed views
   if window.innerWidth <= 480 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
     console.log 'mobile'
+    jQuery('video.video-js').each ->
+    video = jQuery(@)
+    video.css({
+      width: video.data 'width'
+      height: video.data 'height'
+    }).attr("poster", video.data('poster'))
+
   else
     console.log 'desktop'
     jQuery('video.video-js').each ->
-      jQuery('video.video-js').each ->
-        video = jQuery(@)
-        options = {
-          width: video.data 'width'
-          height: video.data 'height'
-          poster: video.data 'poster'
-        }
-        console.log 'video options', options
-        videojs video.attr('id'), options
+      video = jQuery(@)
+      options = {
+        width: video.data 'width'
+        height: video.data 'height'
+        poster: video.data 'poster'
+      }
+      console.log 'video options', options
+      videojs video.attr('id'), options
 
   #gallery view code
   #check if there's one on the page and prepare it
