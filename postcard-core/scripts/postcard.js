@@ -236,7 +236,7 @@ jQuery(document).ready(function() {
           poster: video.data('poster')
         };
         console.log('video options', options);
-        return videojs(video.attr('id', options));
+        return videojs(video.attr('id'), options);
       });
     });
   }
