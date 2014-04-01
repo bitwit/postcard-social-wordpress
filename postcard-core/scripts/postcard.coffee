@@ -165,8 +165,8 @@ jQuery(document).ready () ->
       console.log 'video', video
       #container_width = video.parent().width()
       video.css({
-      #  width: video.data 'width'
-      #  height: video.data 'height'
+        width: video.data 'width'
+        height: video.data 'height'
       }).attr("poster", video.data('poster'))
   else
     console.log 'desktop'
