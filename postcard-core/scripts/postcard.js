@@ -221,20 +221,24 @@ PostcardModal = (function() {
 })();
 
 jQuery(document).ready(function() {
-  var gallery, params, postcard, video;
+  var gallery, params, postcard;
   if (window.innerWidth <= 480 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
     console.log('mobile');
-    jQuery('video.video-js').each(function() {});
-    video = jQuery(this);
-    video.css({
-      width: video.data('width'),
-      height: video.data('height')
-    }).attr("poster", video.data('poster'));
+    jQuery('video.video-js').each(function() {
+      var video;
+      video = jQuery(this);
+      console.log('video', video);
+      return video.css({
+        width: video.data('width'),
+        height: video.data('height')
+      }).attr("poster", video.data('poster'));
+    });
   } else {
     console.log('desktop');
     jQuery('video.video-js').each(function() {
-      var options;
+      var options, video;
       video = jQuery(this);
+      console.log('video', video);
       options = {
         width: video.data('width'),
         height: video.data('height'),

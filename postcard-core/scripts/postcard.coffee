@@ -161,16 +161,17 @@ jQuery(document).ready () ->
   if window.innerWidth <= 480 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
     console.log 'mobile'
     jQuery('video.video-js').each ->
-    video = jQuery(@)
-    video.css({
-      width: video.data 'width'
-      height: video.data 'height'
-    }).attr("poster", video.data('poster'))
-
+      video = jQuery(@)
+      console.log 'video', video
+      video.css({
+        width: video.data 'width'
+        height: video.data 'height'
+      }).attr("poster", video.data('poster'))
   else
     console.log 'desktop'
     jQuery('video.video-js').each ->
       video = jQuery(@)
+      console.log 'video', video
       options = {
         width: video.data 'width'
         height: video.data 'height'
