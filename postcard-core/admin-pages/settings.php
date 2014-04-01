@@ -23,9 +23,6 @@ if (!empty($_POST)) {
     if (isset($_POST['postcard_auto_post_content'])) {
         $option = $_POST['postcard_auto_post_content'];
         update_option('postcard_auto_post_content', $option);
-        if ($option == 2 && isset($_POST['postcard_auto_post_template'])) {
-            update_option("postcard_auto_post_template", $_POST['postcard_auto_post_template']);
-        }
         ?>
         <div id="message" class="updated below-h2">
             <p>Updated Auto-Post content settings</p>
@@ -288,22 +285,6 @@ if (!empty($_POST)) {
                     <input type="radio" name="postcard_auto_post_content"
                            value="1"<?php if ($postContent == 1) echo " checked"; ?>/>
                     <label>The social content (Full message, then link, then image or video)</label>
-
-                    <br/>
-                    <input type="radio" name="postcard_auto_post_content"
-                           value="2"<?php if ($postContent == 2) echo " checked"; ?>/>
-                    <label>Create the content based on my template:</label>
-                    <br/>
-                    <textarea id="postcard_auto_post_template" name="postcard_auto_post_template">
-                        <?php
-                        $template = get_option("postcard_auto_post_template");
-                        if (!$template) {
-                            readfile(plugin_dir_path(__FILE__) . "../templates/post-template-custom-default.php");
-                        } else {
-                            echo stripslashes($template);
-                        }
-                        ?>
-                    </textarea>
                 </div>
                 <div class="postcard-post-option">
                     <?php $postTag = get_option("postcard_auto_post_tag"); ?>

@@ -161,7 +161,6 @@ class PostcardModal
 jQuery(document).ready () ->
   #video code for feed views
   if window.innerWidth <= 480 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
-    console.log 'mobile'
     jQuery('video.video-js').each ->
       video = jQuery(@)
       video_container_width = video.parent().width()
@@ -182,7 +181,6 @@ jQuery(document).ready () ->
         image_container.hide()
         video.get(0).play()
   else
-    console.log 'desktop'
     jQuery('video.video-js').each ->
       video = jQuery(@)
       image_container = video.parent().next()
@@ -190,11 +188,10 @@ jQuery(document).ready () ->
       image_container.hide()
 
       video.parent().next().hide() #hide the image
-      console.log 'video', video
       options = {
-        width: video.data 'width'
-        height: video.data 'height'
-        poster: video.data 'poster'
+        width: video.data('width') || video.attr('width')
+        height: video.data('height') || video.attr('height')
+        poster: video.data('poster') || video.attr('poster')
         preload: "auto"
       }
       console.log 'video options', options

@@ -80,17 +80,6 @@ function postcard_get_post_content($postcard){
             return ob_get_clean();
         break;
 
-        case 2:
-            ob_start();
-            $template = get_option("postcard_auto_post_template");
-            if (!$template) {
-                include("templates/post-template-default.php");
-            } else {
-                eval(stripslashes($template));
-            }
-            return ob_get_clean();
-            break;
-
         default:
             return "";
             break;

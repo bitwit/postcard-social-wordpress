@@ -223,7 +223,6 @@ PostcardModal = (function() {
 jQuery(document).ready(function() {
   var gallery, params, postcard;
   if (window.innerWidth <= 480 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-    console.log('mobile');
     jQuery('video.video-js').each(function() {
       var image_container, media_container, ratio, video, video_container_width;
       video = jQuery(this);
@@ -243,7 +242,6 @@ jQuery(document).ready(function() {
       });
     });
   } else {
-    console.log('desktop');
     jQuery('video.video-js').each(function() {
       var image_container, options, video;
       video = jQuery(this);
@@ -251,11 +249,10 @@ jQuery(document).ready(function() {
       console.log('image container', image_container);
       image_container.hide();
       video.parent().next().hide();
-      console.log('video', video);
       options = {
-        width: video.data('width'),
-        height: video.data('height'),
-        poster: video.data('poster'),
+        width: video.data('width') || video.attr('width'),
+        height: video.data('height') || video.attr('height'),
+        poster: video.data('poster') || video.attr('poster'),
         preload: "auto"
       };
       console.log('video options', options);
