@@ -95,7 +95,7 @@ function postcard_feed($options=null){
             </div>
             <?php if($postcard->video != null): ?>
             <div class="video-container">
-                <video id="postcard-video-<?php echo $postcard->postcard_id; ?>" data-poster="<?php echo $postcard->image; ?>" data-width="<?php echo $postcard->width; ?>" data-height="<?php echo $postcard->height; ?>" class="video-js vjs-default-skin" controls loop preload="auto">
+                <video id="postcard-video-<?php echo $postcard->postcard_id; ?>" data-poster="<?php echo $postcard->image; ?>" data-width="<?php echo $postcard->width; ?>" data-height="<?php echo $postcard->height; ?>" class="video-js vjs-default-skin" controls loop>
                     <source src="<?php echo $postcard->video; ?>" type="video/mp4">
                 </video>
             </div>
