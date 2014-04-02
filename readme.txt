@@ -4,7 +4,7 @@ Donate link: http://www.postcardsocial.net
 Tags: social, networking, postcard, feed
 Requires at least: 3.0
 Tested up to: 3.8.1
-Stable tag: 1.3.2
+Stable tag: 1.4
 License: GPL v2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -26,11 +26,10 @@ The intention of the Postcard app and plugin is to help users achieve a few key 
 
 1. Upload the `postcard-plugin`folder  to the `/wp-content/plugins/` directory
 2. Activate the plugin through the 'Plugins' menu in WordPress
-3. Make sure that you are using a custom permalink structure (or your .htaccess is properly set up to re-route url calls)
-4. Click the 'Postcard' button and confirm that your 'Server API Status' is 'Online'
-5. You are now ready to setup the network up in Postcard on your mobile phone.
-6. In the iOS app - Use the 'API Endpoint' as the website url and enter your username and password to get setup
-7. Now you are ready to post content directly to your own website.
+3. You are now ready to setup the network up in Postcard on your mobile phone.
+4. In the iOS app - enter your WordPress website url, username and password to get set up
+5. Now you are ready to post content directly to your own website.
+6. New content will display in the newly created "Postcard Archive" page as well as "My Postcards" in your settings menu. There are many more options for customization.
 
 Once you are posting content to your website, you can use insert short tags in the post/pages editor to retrieve your content like so:
 

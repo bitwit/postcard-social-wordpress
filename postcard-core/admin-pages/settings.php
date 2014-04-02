@@ -62,7 +62,6 @@ if (!empty($_POST)) {
         }
 
         button.postcard-save {
-            float: left;
             border: none;
             border-radius: 4px;
             background-color: #ff6437;
@@ -81,7 +80,7 @@ if (!empty($_POST)) {
 
         .postcard-intro {
             clear: both;
-            margin: 10px 0;
+            margin: 24px 2%;
             font-size: 18px;
             line-height: 21px;
         }
@@ -105,6 +104,13 @@ if (!empty($_POST)) {
             overflow: hidden;
             background-color: #efefef;
             border: 1px solid #656565;
+        }
+
+        @media screen and (max-width: 780px){
+            .postcard-primary-option {
+                clear: both;
+                width: 88%;
+            }
         }
 
         .postcard-primary-option:hover {
@@ -135,8 +141,18 @@ if (!empty($_POST)) {
             margin: 0 5%;
         }
 
+        @media screen and (max-width: 780px){
+            #postcard-core-features {
+                display: none;
+            }
+            #postcard-post-options {
+                width: 90%;
+            }
+        }
+
         .postcard-post-option input {
             clear: left;
+            margin: 4px 0
         }
 
         #postcard_auto_post_template {
@@ -189,8 +205,7 @@ if (!empty($_POST)) {
                 <h4>The Postcard social plugin gives you the option to integrate in two key ways:</h4>
                 <ul style="list-style-type: circle; padding-left: 20px;">
                     <li>Treat your social content like a separate feed or 'micro-blog' in supplement to standard
-                        WordPress
-                        posts.
+                        WordPress posts.
                     </li>
                     <li>Treat social content like it <strong>IS</strong> a standard WordPress post.</li>
                 </ul>
@@ -201,12 +216,10 @@ if (!empty($_POST)) {
             <div class="postcard-primary-options">
                 <div class="postcard-primary-option">
                     <input type="radio" name="postcard_auto_post" value="0"<?php if (!$shouldPost) echo " checked"; ?>/>
-
                     <p>I want social content to be handled separately <strong>(default)</strong></p>
                 </div>
                 <div class="postcard-primary-option">
                     <input type="radio" name="postcard_auto_post" value="1"<?php if ($shouldPost) echo " checked"; ?>/>
-
                     <p>I want social content to create new WordPress Posts</p>
                 </div>
             </div>
