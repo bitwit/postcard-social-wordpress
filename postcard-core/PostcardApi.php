@@ -314,7 +314,7 @@ class PostcardApi
     private function post_search()
     {
         require_once("postcard-functions.php");
-        if ($this->data["tags"] != NULL) { //explode tags on the comma if it exists
+        if ( isset($this->data["tags"])) { //explode tags on the comma if it exists
             $this->data["tags"] = explode(",", $this->data["tags"]);
         }
         $results = postcard_get_collection($this->data);
